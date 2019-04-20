@@ -22,15 +22,21 @@ class VelocityMotionModel:
         x = pose[0, 0]
         y = pose[1, 0]
         theta = pose[2, 0]
+        w_tolerance = 0.00000001
 
         v_hat = v_cmd + np.random.normal(0, math.sqrt(self.alpha1 * v_cmd*v_cmd + self.alpha2 * w_cmd*w_cmd))
         w_hat = w_cmd + np.random.normal(0, math.sqrt(self.alpha3 * v_cmd*v_cmd + self.alpha4 * w_cmd*w_cmd))
         gama_hat = np.random.normal(0, math.sqrt(self.alpha5 * v_cmd*v_cmd + self.alpha6 * w_cmd*w_cmd))
 
-        v_over_w_hat = v_hat/w_hat
+        if math.fabs(w_hat) > w_tolerance:
+            v_over_w_hat = v_hat/w_hat
+            x_prime = x - v_over_w_hat * math.sin(theta) + v_over_w_hat * math.sin(theta + w_hat * deltaT)
+            y_prime = y + v_over_w_hat * math.cos(theta) - v_over_w_hat * math.cos(theta + w_hat * deltaT)
+        else:
+            x_prime = x + v_hat * deltaT * math.cos(theta)
+            y_prime = y + v_hat * deltaT * math.sin(theta)
 
-        x_prime = x - v_over_w_hat * math.sin(theta) + v_over_w_hat * math.sin(theta + w_hat * deltaT)
-        y_prime = y + v_over_w_hat * math.cos(theta) - v_over_w_hat * math.cos(theta + w_hat * deltaT)
         theta_prime = theta + w_hat * deltaT + gama_hat * deltaT
+
 
         return np.array([[x_prime], [y_prime], [theta_prime]])

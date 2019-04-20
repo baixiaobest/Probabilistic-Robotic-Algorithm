@@ -2,11 +2,12 @@ import plot
 import raycast as rc
 import numpy as np
 import velocityMotionModel as vm
+from scipy.stats import norm
 
 def plotRobotMotion():
     N = 100
     control = np.array([[1], [0.2]])
-    pose = np.array([[15], [15], [0]])
+    pose = np.array([[8], [15], [0]])
     deltaT = 5
 
     plot.limit(0, 30, 0, 30)
@@ -23,12 +24,12 @@ def plotRobotMotion():
 def plotOccupancy():
     data = plot.readBMPAsNumpyArray("../map/maze_map.bmp")
 
-    startPos = np.array([[1575], [850]])
+    startPos = np.array([[300], [1200]])
     numRays = 8
 
-    paths = rc.raycastOmni(data, startPos, numRays, True)
+    paths = rc.raycastOmnidirection(data, startPos, numRays, True, 1000)
 
-    endPoints = rc.raycastOmni(data, startPos, numRays)
+    endPoints = rc.raycastOmnidirection(data, startPos, numRays, limit=3)
 
     for i in range(len(paths)):
         for j in range(len(paths[i])):
@@ -40,4 +41,4 @@ def plotOccupancy():
     plot.show()
 
 if __name__ == "__main__":
-    plotRobotMotion()
+    plotOccupancy()
