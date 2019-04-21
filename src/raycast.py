@@ -3,7 +3,7 @@ import math
 
 
 # grid: Occupancy grid on which the raycast is done
-# startPos: Position vector where raycast starts. Numpy [[x], [y]]
+# startPos: Position vector where raycast starts. Numpy [x, y]
 # theta: Angle of the raycast. value of range [0, 2*pi].
 # fullPath: If True, then a full path of raycast will be returned.
 # limit: If defined positive, raycast stops when it reaches maximum distance. Unit is per cell width.
@@ -14,8 +14,8 @@ def raycast(grid, startPos, theta, fullPath=False, limit=-1.0):
     path = []
     endPoint = np.zeros((2, 1))
 
-    x = startPos[0, 0]
-    y = startPos[1, 0]
+    x = startPos[0]
+    y = startPos[1]
 
     height, width = grid.shape
 
@@ -54,16 +54,16 @@ def raycast(grid, startPos, theta, fullPath=False, limit=-1.0):
 
         # record the path if full path is requested.
         if fullPath:
-            path.append(np.array([[gridX], [gridY]]))
+            path.append(np.array([gridX, gridY]))
 
         # When the current grid cell is occupied, stop the raycast.
         if grid[gridY, gridX] == 0:
-            endPoint = np.array([[gridX], [gridY]])
+            endPoint = np.array([gridX, gridY])
             break
 
         # When maximum raycast distance limit is reached, stop the raycast.
         if limit > 0 and raycastDistance >= limit:
-            endPoint = np.array([[gridX], [gridY]])
+            endPoint = np.array([gridX, gridY])
             break
 
         currCmX += deltaX
@@ -83,7 +83,7 @@ def raycast(grid, startPos, theta, fullPath=False, limit=-1.0):
         return endPoint
 
 # A Omni-directional raycast, raycast on all directions.
-# startPos: Start position of the raycast, numpy [[x], [y]]
+# startPos: Start position of the raycast, numpy [x, y]
 # numRays: Total number of rays to cast in all directions.
 # fullPath: Is the function returning a full path of raycast or just the endpoint.
 # limit: Distance limit of the raycast, in the unit of cell width.
@@ -102,7 +102,7 @@ def raycastOmnidirection(grid, startPos, numRays, fullPath=False, limit=-1.0):
 
 # A raycast that returns only distance in robot coordinate
 # Grid: Occupancy grid.
-# pose: Robot pose numpy [[x], [y]].
+# pose: Robot pose numpy [x, y].
 # theta: Direction at which the ray is cast.
 # resolution: Resolution of the grid, unit of meter per cell width.
 # limit: Distance limit of the raycast, unit of meter.
@@ -110,8 +110,8 @@ def raycastOmnidirection(grid, startPos, numRays, fullPath=False, limit=-1.0):
 def distanceRaycast(grid, pose, theta, resolution=1, limit=-1.0):
     # Transform robot pose into start position on the grid.
     startPos = np.array([
-        [int(pose[0, 0] / resolution)],
-        [int(pose[1, 0] / resolution)]])
+        int(pose[0] / resolution),
+        int(pose[1] / resolution)])
 
     # Transform distance in robot coordinate into distance in grid coordinate
     gridLimit = limit / resolution

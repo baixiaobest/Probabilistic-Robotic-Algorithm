@@ -49,12 +49,12 @@ def raycastTest():
     grid = plot.readBMPAsNumpyArray("../map/maze_map.bmp")
 
     measurements = np.linspace(0, 20, 1000)
-    pose = np.array([[0], [12]])
+    pose = np.array([4, 12])
     prob = []
 
     for i in range(len(measurements)):
         zt = measurements[i]
-        prob.append(model.calculateProb([np.array([[0], [zt]])], pose, grid, resolution=0.01))
+        prob.append(model.calculateProb([np.array([0, zt])], pose, grid, resolution=0.01))
 
     plt.plot(measurements, prob)
     plt.show()

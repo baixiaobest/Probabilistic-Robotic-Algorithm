@@ -12,16 +12,16 @@ class VelocityMotionModel:
         self.alpha6 = float(alpha6)
 
     # Sample a new pose from previous pose and control ut.
-    # ut: a vector of [[speed], [angular speed]].
-    # pose: a vector of [[x], [y], [theta]] representing robot pose.
+    # ut: a vector of [speed, angular speed].
+    # pose: a vector of [x, y, theta] representing robot pose.
     # deltaT: for how long this command is executing.
     # Returns: a new robot pose.
     def sampleNewPose(self, ut, pose, deltaT):
-        v_cmd = ut[0, 0]
-        w_cmd = ut[1, 0]
-        x = pose[0, 0]
-        y = pose[1, 0]
-        theta = pose[2, 0]
+        v_cmd = ut[0]
+        w_cmd = ut[1]
+        x = pose[0]
+        y = pose[1]
+        theta = pose[2]
         w_tolerance = 0.00000001
 
         v_hat = v_cmd + np.random.normal(0, math.sqrt(self.alpha1 * v_cmd*v_cmd + self.alpha2 * w_cmd*w_cmd))
@@ -39,4 +39,4 @@ class VelocityMotionModel:
         theta_prime = theta + w_hat * deltaT + gama_hat * deltaT
 
 
-        return np.array([[x_prime], [y_prime], [theta_prime]])
+        return np.array([x_prime, y_prime, theta_prime])

@@ -20,16 +20,16 @@ class RangeFinderBeamModel:
 
 
     # Calculate the probability of sensor measurements zt, given the map and robot pose.
-    # ztArr: Array of sensor measurement [[[theta], [distance]], ..., ...]
+    # ztArr: Array of sensor measurement [[theta, distance], [...], [...]]
     # grid: Occupancy grid.
-    # pose: Robot pose [[x], [y], [theta]].
+    # pose: Robot pose [x, y, theta].
     def calculateProb(self, ztArr, pose, grid, resolution=1):
         prob = 1
         for i in range(len(ztArr)):
             # Info from sensor measurement i
             zt = ztArr[i]
-            theta = zt[0, 0]
-            dist = zt[1, 0]
+            theta = zt[0]
+            dist = zt[1]
 
             # Clamp the measurement value, only [0, z_max] range is allowed.
             if dist > self.z_max:

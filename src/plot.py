@@ -35,11 +35,11 @@ def plotOccupancyGrid(arr, res):
     plt.plot(xPos, yPos, 'k.', markersize=1)
 
 # Plot the pose of robot.
-# pose: a vector of [[x], [y], [theta]]
+# pose: a vector of [x, y, theta]
 def plotRobotPose(pose):
-    x = pose[0, 0]
-    y = pose[1, 0]
-    theta = pose[2, 0]
+    x = pose[0]
+    y = pose[1]
+    theta = pose[2]
     dx = math.cos(theta)
     dy = math.sin(theta)
 
