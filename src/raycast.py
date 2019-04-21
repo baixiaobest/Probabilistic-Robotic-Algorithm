@@ -52,7 +52,7 @@ def raycast(grid, startPos, theta, fullPath=False, limit=-1.0):
 
     while gridX < width and gridX >=0 and gridY < height and gridY >= 0:
 
-        # record the path if fullpath is requested.
+        # record the path if full path is requested.
         if fullPath:
             path.append(np.array([[gridX], [gridY]]))
 

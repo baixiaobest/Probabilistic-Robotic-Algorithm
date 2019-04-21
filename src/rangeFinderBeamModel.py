@@ -76,9 +76,9 @@ class RangeFinderBeamModel:
         if math.fabs(expec_dist - dist) >= 3 * self.sigma_hit:
             normalizer = 1.0
         else:
-            normalizer = 1.0 / (
-                norm.cdf(self.z_max, loc=expec_dist, scale=self.sigma_hit)
-                - norm.cdf(0, loc=expec_dist, scale=self.sigma_hit))
+            normalizer = 1.0 / \
+                (norm.cdf(self.z_max, loc=expec_dist, scale=self.sigma_hit)
+                    - norm.cdf(0, loc=expec_dist, scale=self.sigma_hit))
 
         return prob * normalizer
 
