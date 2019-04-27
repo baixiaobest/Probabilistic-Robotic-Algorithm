@@ -34,13 +34,15 @@ class Robot:
 
     # Perform a laser measurement based on current pose.
     def measurementUpdate(self):
+        # measurement is a list of vectors [[theta, distance], ...]
         measurements = rc.omniDirectionDistanceRaycast(
-            self.grid, self.pose, self.numRays, self.pose[2], self.resolution, self.limit)
+            self.grid, self.pose, self.numRays, self.pose[2], self.resolution, self.limit, returnVector=True)
 
         # Add noise to these measurements
         for i in range(len(measurements)):
-            noisyMeasurement = measurements[i] + np.random.normal(0, self.noiseSigma)
-            measurements[i] = max(min(self.limit, noisyMeasurement), 0)
+            distance = measurements[i][0]
+            noisyDistance = distance + np.random.normal(0, self.noiseSigma)
+            measurements[i][0] = max(min(self.limit, noisyDistance), 0)
 
         return measurements
 

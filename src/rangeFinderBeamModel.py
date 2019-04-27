@@ -1,5 +1,4 @@
 import raycast as rc
-import numpy as np
 from scipy.stats import norm
 import math
 

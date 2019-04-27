@@ -4,7 +4,7 @@ from PIL import Image
 import math
 
 
-def plotOccupancyGrid(grid, resolution):
+def plotOccupancyGrid(grid, resolution, lim=None):
     height, width = grid.shape
 
     # Initial xPos, yPos size.
@@ -30,13 +30,17 @@ def plotOccupancyGrid(grid, resolution):
     yPos = yPos[0:idx]
 
     # Plot the occupancy grid.
-    plt.xlim(0, width * resolution)
-    plt.ylim(0, height * resolution)
+    if lim is None:
+        plt.xlim(0, width * resolution)
+        plt.ylim(0, height * resolution)
+    else:
+        plt.xlim(lim[0], lim[1])
+        plt.ylim(lim[2], lim[3])
     plt.plot(xPos, yPos, 'k.', markersize=1)
 
 # Plot the pose of robot.
 # pose: a vector of [x, y, theta]
-def plotRobotPose(pose):
+def plotRobotPose(pose, style='bo'):
     x = pose[0]
     y = pose[1]
     theta = pose[2]
@@ -44,13 +48,13 @@ def plotRobotPose(pose):
     dy = math.sin(theta)
 
     plt.arrow(x, y, dx, dy)
-    plt.plot([x],[y], 'bo', markersize=3)
+    plt.plot([x],[y], style, markersize=3)
 
 # Plot a list of robot poses.
 # poses: A list of poses, or [[x, y, theta], [...], ...]
-def plotRobotPoses(poses):
+def plotRobotPoses(poses, style='bo'):
     for i in range(len(poses)):
-        plotRobotPose(poses[i])
+        plotRobotPose(poses[i], style)
 
 
 def limit(xs, xe, ys, ye):

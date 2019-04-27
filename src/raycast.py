@@ -127,8 +127,10 @@ def raycastOmnidirection(grid, startPos, numRays, fullPath=False, limit=-1.0):
 # theta: Direction at which the ray is cast.
 # resolution: Resolution of the grid, unit of meter per cell width.
 # limit: Distance limit of the raycast, unit of meter.
+# returnVector: Return the result in form of [theta, distance]
 # Returns a distance starting from pose to the end of raycast, unit of meter.
-def distanceRaycast(grid, pose, theta, resolution=1, limit=-1.0):
+#   Or in form of [theta, distance]
+def distanceRaycast(grid, pose, theta, resolution=1, limit=-1.0, returnVector=False):
     # Transform robot pose into start position on the grid.
     startPos = np.array([
         int(pose[0] / resolution),
@@ -146,7 +148,10 @@ def distanceRaycast(grid, pose, theta, resolution=1, limit=-1.0):
     else:
         relativeDist = np.linalg.norm(endpoint - startPos) * resolution
 
-    return relativeDist
+    if returnVector:
+        return np.array([theta, relativeDist])
+    else:
+        return relativeDist
 
 # A Omni-directional raycast on all directions, it returns distance to surrounding
 # objects only. If the raycast limit is reached, function returns that limit.
@@ -155,15 +160,16 @@ def distanceRaycast(grid, pose, theta, resolution=1, limit=-1.0):
 # numRays: Total number of rays to cast in all directions.
 # thetaOffset: Angle offset of this raycast.
 # resolution: Resolution of the grid, unit of meter per cell width.
+# returnVector: Return the result in form of [[theta, distance], [...], ...]
 # limit: Distance limit of the raycast, unit of meter.
-# Returns a list of distances.
-def omniDirectionDistanceRaycast(grid, pose, numRays, thetaOffset, resolution=1, limit=-1.0):
+# Returns a list of distances. Or a list of measurement vector.
+def omniDirectionDistanceRaycast(grid, pose, numRays, thetaOffset, resolution=1, limit=-1.0, returnVector=False):
     thetas = np.zeros(numRays)
     for i in range(numRays):
         thetas[i] = (i / float(numRays) * 2 * math.pi + thetaOffset) % (2 * math.pi)
 
     distances = []
     for i in range(numRays):
-        distances.append(distanceRaycast(grid, pose, thetas[i], resolution, limit))
+        distances.append(distanceRaycast(grid, pose, thetas[i], resolution, limit, returnVector))
 
     return distances
