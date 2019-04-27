@@ -4,8 +4,8 @@ from PIL import Image
 import math
 
 
-def plotOccupancyGrid(arr, res):
-    height, width = arr.shape
+def plotOccupancyGrid(grid, resolution):
+    height, width = grid.shape
 
     # Initial xPos, yPos size.
     N = 1000
@@ -15,9 +15,9 @@ def plotOccupancyGrid(arr, res):
     # Loop through every pixel in the arr.
     for y in range(height):
         for x in range(width):
-            if arr[y,x] < 100:
-                xPos[idx] = x * res
-                yPos[idx] = y * res
+            if grid[y, x] < 100:
+                xPos[idx] = x * resolution
+                yPos[idx] = y * resolution
                 idx += 1
                 # Resize the array when it reaches maximum
                 if idx == N:
@@ -30,8 +30,8 @@ def plotOccupancyGrid(arr, res):
     yPos = yPos[0:idx]
 
     # Plot the occupancy grid.
-    plt.xlim(0, width * res)
-    plt.ylim(0, height * res)
+    plt.xlim(0, width * resolution)
+    plt.ylim(0, height * resolution)
     plt.plot(xPos, yPos, 'k.', markersize=1)
 
 # Plot the pose of robot.
@@ -45,6 +45,12 @@ def plotRobotPose(pose):
 
     plt.arrow(x, y, dx, dy)
     plt.plot([x],[y], 'bo', markersize=3)
+
+# Plot a list of robot poses.
+# poses: A list of poses, or [[x, y, theta], [...], ...]
+def plotRobotPoses(poses):
+    for i in range(len(poses)):
+        plotRobotPose(poses[i])
 
 
 def limit(xs, xe, ys, ye):

@@ -1,5 +1,15 @@
 import numpy as np
 import math
+from enum import Enum
+
+# This tells why the raycast stops.
+class RaycastStatus(Enum):
+    # Raycast reaches the boundary of the occupancy grid.
+    BOUNDARY_REACHED = 1,
+    # Raycast ends because it reaches an obstacle.
+    OBSTACLE = 2,
+    # Raycast ends because it reaches the range limit.
+    LIMIT_REACHED = 3
 
 
 # grid: Occupancy grid on which the raycast is done
@@ -10,6 +20,7 @@ import math
 # returns: position vector of the endpoint of the ray,
 #   or an array of position vector on which the ray visited,
 #   depending on the option fullPath.
+#   And the status of the raycast.
 def raycast(grid, startPos, theta, fullPath=False, limit=-1.0):
     path = []
     endPoint = np.zeros((2, 1))
@@ -49,6 +60,7 @@ def raycast(grid, startPos, theta, fullPath=False, limit=-1.0):
     gridX = int(currCmX)
     gridY = int(currCmY)
     raycastDistance = 0.0
+    raycastStatus = RaycastStatus.BOUNDARY_REACHED
 
     while gridX < width and gridX >=0 and gridY < height and gridY >= 0:
 
@@ -59,11 +71,13 @@ def raycast(grid, startPos, theta, fullPath=False, limit=-1.0):
         # When the current grid cell is occupied, stop the raycast.
         if grid[gridY, gridX] == 0:
             endPoint = np.array([gridX, gridY])
+            raycastStatus = RaycastStatus.OBSTACLE
             break
 
         # When maximum raycast distance limit is reached, stop the raycast.
         if limit > 0 and raycastDistance >= limit:
             endPoint = np.array([gridX, gridY])
+            raycastStatus = RaycastStatus.LIMIT_REACHED
             break
 
         currCmX += deltaX
@@ -77,10 +91,17 @@ def raycast(grid, startPos, theta, fullPath=False, limit=-1.0):
         # during each iteration.
         raycastDistance += scale
 
+    # The raycast ends because it reaches the grid boundary.
+    # Readjust gridX and gridY to be used as endPoint.
+    if gridX >= width or gridX < 0 or gridY >= height or gridY < 0:
+        gridX = min(max(gridX, 0), width - 1)
+        gridY = min(max(gridY, 0), height - 1)
+        endPoint = np.array([gridX, gridY])
+
     if fullPath:
-        return path
+        return path, raycastStatus
     else:
-        return endPoint
+        return endPoint, raycastStatus
 
 # A Omni-directional raycast, raycast on all directions.
 # startPos: Start position of the raycast, numpy [x, y]
@@ -96,7 +117,7 @@ def raycastOmnidirection(grid, startPos, numRays, fullPath=False, limit=-1.0):
 
     pathsOrEndpoints = []
     for i in range(numRays):
-        pathsOrEndpoints.append(raycast(grid, startPos, thetas[i], fullPath, limit))
+        pathsOrEndpoints.append(raycast(grid, startPos, thetas[i], fullPath, limit)[0])
 
     return pathsOrEndpoints
 
@@ -116,7 +137,33 @@ def distanceRaycast(grid, pose, theta, resolution=1, limit=-1.0):
     # Transform distance in robot coordinate into distance in grid coordinate
     gridLimit = limit / resolution
 
-    endpoint = raycast(grid, startPos, theta, limit=gridLimit)
-    relativeDist = np.linalg.norm(endpoint - startPos) * resolution
+    endpoint, status = raycast(grid, startPos, theta, limit=gridLimit)
+
+    # If raycast ends due to reaching the boundary of the occupancy grid,
+    # Then this raycast has distance equals to limit.
+    if status == RaycastStatus.BOUNDARY_REACHED and limit > 0:
+        relativeDist = limit
+    else:
+        relativeDist = np.linalg.norm(endpoint - startPos) * resolution
 
     return relativeDist
+
+# A Omni-directional raycast on all directions, it returns distance to surrounding
+# objects only. If the raycast limit is reached, function returns that limit.
+# Grid: Occupancy grid.
+# pose: Rangfinder pose numpy [x, y].
+# numRays: Total number of rays to cast in all directions.
+# thetaOffset: Angle offset of this raycast.
+# resolution: Resolution of the grid, unit of meter per cell width.
+# limit: Distance limit of the raycast, unit of meter.
+# Returns a list of distances.
+def omniDirectionDistanceRaycast(grid, pose, numRays, thetaOffset, resolution=1, limit=-1.0):
+    thetas = np.zeros(numRays)
+    for i in range(numRays):
+        thetas[i] = (i / float(numRays) * 2 * math.pi + thetaOffset) % (2 * math.pi)
+
+    distances = []
+    for i in range(numRays):
+        distances.append(distanceRaycast(grid, pose, thetas[i], resolution, limit))
+
+    return distances

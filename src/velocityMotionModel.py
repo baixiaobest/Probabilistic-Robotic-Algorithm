@@ -12,7 +12,7 @@ class VelocityMotionModel:
         self.alpha6 = float(alpha6)
 
     # Sample a new pose from previous pose and control ut.
-    # ut: a vector of [speed, angular speed].
+    # ut: Command, a vector of [speed, angular speed].
     # pose: a vector of [x, y, theta] representing robot pose.
     # deltaT: for how long this command is executing.
     # Returns: a new robot pose.
