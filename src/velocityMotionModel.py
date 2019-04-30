@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import sampler as s
 
 
 class VelocityMotionModel:
@@ -24,9 +25,9 @@ class VelocityMotionModel:
         theta = pose[2]
         w_tolerance = 0.00000001
 
-        v_hat = v_cmd + np.random.normal(0, math.sqrt(self.alpha1 * v_cmd*v_cmd + self.alpha2 * w_cmd*w_cmd))
-        w_hat = w_cmd + np.random.normal(0, math.sqrt(self.alpha3 * v_cmd*v_cmd + self.alpha4 * w_cmd*w_cmd))
-        gama_hat = np.random.normal(0, math.sqrt(self.alpha5 * v_cmd*v_cmd + self.alpha6 * w_cmd*w_cmd))
+        v_hat = v_cmd + s.sampleNormal(0, math.sqrt(self.alpha1 * v_cmd*v_cmd + self.alpha2 * w_cmd*w_cmd))
+        w_hat = w_cmd + s.sampleNormal(0, math.sqrt(self.alpha3 * v_cmd*v_cmd + self.alpha4 * w_cmd*w_cmd))
+        gama_hat = s.sampleNormal(0, math.sqrt(self.alpha5 * v_cmd*v_cmd + self.alpha6 * w_cmd*w_cmd))
 
         if math.fabs(w_hat) > w_tolerance:
             v_over_w_hat = v_hat/w_hat

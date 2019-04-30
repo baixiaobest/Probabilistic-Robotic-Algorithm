@@ -12,15 +12,30 @@ command = [
     np.array([0.9, 0]),
     np.array([1, 1.5]),
     np.array([1, 1]),
-    np.array([0.5, 0.8]),
+    np.array([0.5, 1]),
+    np.array([1, 0]),
+    np.array([1, 0]),
+    np.array([1, 0.3]),
     np.array([1, 0]),
     np.array([1, 0]),
     np.array([1, 0]),
     np.array([1, 0]),
     np.array([1, 0]),
     np.array([1, 0]),
-    np.array([1, 0])
-
+    np.array([1, 0]),
+    np.array([1, 0]),
+    np.array([1, 0]),
+    np.array([1, 0]),
+    np.array([1, 1]),
+    np.array([1, 0.7]),
+    np.array([1.3, 0.6]),
+    np.array([1, 0.5]),
+    np.array([1, 0]),
+    np.array([1, 0]),
+    np.array([1, 0]),
+    np.array([1, -0.6]),
+    np.array([1, -0.6]),
+    np.array([2, -0.3]),
 ]
 
 if __name__ == '__main__':
@@ -71,6 +86,9 @@ if __name__ == '__main__':
         poses.append(robot.motionUpdate(command[i], deltaT))
         measurements.append(robot.measurementUpdate())
 
+    # We use different random seed to generate localization particles
+    random.seed(1)
+
     N = 100
     poseGuess = [10, 20, 10, 20]
     estimatedPoses = []
@@ -79,7 +97,8 @@ if __name__ == '__main__':
     for i in range(len(command)):
         plot.plotOccupancyGrid(grid, resolution, plotLim)
         plot.plotRobotPoses(mcl.getParticles(), 'r+')
-        plot.plotRobotPose(poses[i + 1], 'bo')
+        # plot.plotRobotPose(mcl.calculateEstimatedPose(), 'r+')
+        plot.plotRobotPose(poses[i], 'bo')
         plot.show()
         mcl.motionUpdate(command[i], deltaT)
         mcl.measurementUpdate(measurements[i])

@@ -45,6 +45,7 @@ class MonteCarloLocalization:
                 weight = self.measurementModel.calculateProb(measurements, particle, self.grid, self.resolution)
             self.particles[i][3] *= weight
 
+    # Resample all the particles based on their current weights.
     def resample(self):
         normalizer = 0
         for i in range(self.numParticles):
@@ -69,6 +70,25 @@ class MonteCarloLocalization:
             newParticles.append(newParticle)
 
         self.particles = newParticles
+
+    # Calculate the estimated pose by averaging all the particles.
+    def calculateEstimatedPose(self):
+        totalX = 0
+        totalY = 0
+        totalCos = 0
+        totalSin = 0
+
+        for i in range(self.numParticles):
+            totalX += self.particles[i][0]
+            totalY += self.particles[i][1]
+            totalCos += math.cos(self.particles[i][2])
+            totalSin += math.sin(self.particles[i][2])
+
+        x = totalX / self.numParticles
+        y = totalY / self.numParticles
+        theta = math.atan2(totalSin / self.numParticles, totalCos / self.numParticles)
+
+        return np.array([x, y, theta])
 
     def getParticles(self):
         return self.particles
