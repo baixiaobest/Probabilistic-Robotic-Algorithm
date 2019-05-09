@@ -9,25 +9,37 @@ class MonteCarloLocalization:
     # numParticles: Number of particles used.
     # motionModel: Probabilistic motion model.
     # measurementModel: Probabilistic measurement model.
-    def __init__(self, grid, resolution, poseGuess, numParticles, motionModel, measurementModel):
+    # enableParticleInjection: Inject random particle in case of localization failure.
+    # alphaSlow: Parameter that make avgWeightSlow slowly follows average weight of the particles.
+    # alphaFast: Parameter that make avgWeightFast quickly follows average weight of the particles.
+    def __init__(self,
+                 grid,
+                 resolution,
+                 poseGuess,
+                 numParticles,
+                 motionModel,
+                 measurementModel,
+                 enableParticleInjection=False,
+                 alphaSlow=0.1,
+                 alphaFast=1):
         self.grid = grid
         self.resolution = resolution
         self.numParticles = numParticles
         self.motionModel = motionModel
         self.measurementModel = measurementModel
+        self.enableParticleInjection = enableParticleInjection
+        self.alphaSlow = alphaSlow
+        self.alphaFast = alphaFast
         self.particles = []
+        self.avgWeightSlow = 0
+        self.avgWeightFast = 0
 
-        xMin = poseGuess[0]
-        xMax = poseGuess[1]
-        yMin = poseGuess[2]
-        yMax = poseGuess[3]
-        # Generate a set of particles.
-        # Particle is represented as [x, y, theta, weight]
-        for i in range(numParticles):
-            x = random.uniform(xMin, xMax)
-            y = random.uniform(yMin, yMax)
-            theta = random.uniform(0, 2.0 * math.pi)
-            self.particles.append(np.array([x, y, theta, 1]))
+        self.xMin = poseGuess[0]
+        self.xMax = poseGuess[1]
+        self.yMin = poseGuess[2]
+        self.yMax = poseGuess[3]
+
+        self.particles = self._generateRandomParticles(numParticles)
 
     # Sample a set of new particles from previous particles using motion model.
     # The sample set represents the proposal distribution.
@@ -54,13 +66,25 @@ class MonteCarloLocalization:
         for i in range(self.numParticles):
             self.particles[i][3] = self.particles[i][3] / normalizer
 
-        newParticles = []
-        step = 1.0 / self.numParticles
+        # Determine number of injected random new particles.
+        numParticlesInject = 0
+        if self.enableParticleInjection:
+            avgWeight = normalizer / self.numParticles
+            self.avgWeightSlow += self.alphaSlow * (avgWeight - self.avgWeightSlow)
+            self.avgWeightFast += self.alphaFast * (avgWeight - self.avgWeightFast)
+            numParticlesInject = int(np.fmax(0, 1.0 - self.avgWeightFast / self.avgWeightSlow) * self.numParticles)
+
+        # Inject new random particles
+        newParticles = self._generateRandomParticles(numParticlesInject)
+
+        # Start resampling from old particles
+        numParticlesToResample = self.numParticles - numParticlesInject
+        step = 1.0 / (numParticlesToResample)
         r = random.uniform(0.0, step)
         c = self.particles[0][3]
         i = 0
 
-        for m in range(self.numParticles):
+        for m in range(numParticlesToResample):
             U = r + m * step
             while U > c:
                 i = i + 1
@@ -92,6 +116,18 @@ class MonteCarloLocalization:
 
     def getParticles(self):
         return self.particles
+
+    # Generate a set of particles.
+    # Particle is represented as [x, y, theta, weight]
+    def _generateRandomParticles(self, numParticles):
+        particles = []
+
+        for i in range(numParticles):
+            x = random.uniform(self.xMin, self.xMax)
+            y = random.uniform(self.yMin, self.yMax)
+            theta = random.uniform(0, 2.0 * math.pi)
+            particles.append(np.array([x, y, theta, 1]))
+        return particles
 
     def _outOfMap(self, particle):
         height, width = self.grid.shape

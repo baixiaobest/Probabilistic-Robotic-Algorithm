@@ -6,7 +6,7 @@ import numpy as np
 import src.MonteCarloLocalization as MCL
 import src.rangeFinderBeamModel as mm
 
-command = [
+command1 = [
     np.array([0.5, 0]),
     np.array([0.3, 1.7]),
     np.array([0.9, 0]),
@@ -24,25 +24,66 @@ command = [
     np.array([1, 0]),
     np.array([1, 0]),
     np.array([1, 0]),
-    np.array([1, 0]),
-    np.array([1, 0]),
-    np.array([1, 1]),
-    np.array([1, 0.7]),
-    np.array([1.3, 0.6]),
-    np.array([1, 0.5]),
-    np.array([1, 0]),
-    np.array([1, 0]),
-    np.array([1, 0]),
-    np.array([1, -0.6]),
-    np.array([1, -0.6]),
-    np.array([2, -0.3]),
+    # np.array([1, 0]),
+    # np.array([1, 0]),
+    # np.array([1, 1]),
+    # np.array([1, 0.7]),
+    # np.array([1.3, 0.6]),
+    # np.array([1, 0.5]),
+    # np.array([1, 0]),
+    # np.array([1, 0]),
+    # np.array([1, 0]),
+    # np.array([1, -0.6]),
+    # np.array([1, -0.6]),
+    # np.array([2, -0.3]),
 ]
+
+command2 = [
+    np.array([1, -0.2]),
+    np.array([0.7, 0.2]),
+    np.array([1.2, -0.5]),
+    np.array([1, 0.8]),
+    np.array([0.8, 0.4]),
+    np.array([1.5, 0.3]),
+    np.array([1.2, 0]),
+    np.array([1, -0.5]),
+    np.array([1, 0]),
+    np.array([1.2, 0]),
+]
+
+def generateData(robot, command, initialPose):
+    poses = [initialPose]
+    measurements = []
+
+    for i in range(len(command)):
+        poses.append(robot.motionUpdate(command[i], deltaT))
+        measurements.append(robot.measurementUpdate())
+
+    return poses, measurements
+
+def generateLocalizationData(mcl, command, measurements, deltaT):
+
+    estimatedPoses = []
+    particles = []
+
+    for i in range(len(command)):
+        estimatedPoses.append(mcl.calculateEstimatedPose())
+        particles.append(mcl.getParticles())
+        mcl.motionUpdate(command[i], deltaT)
+        mcl.measurementUpdate(measurements[i])
+        mcl.resample()
+
+    estimatedPoses.append(mcl.calculateEstimatedPose())
+    particles.append(mcl.getParticles())
+
+    return estimatedPoses, particles
+
 
 if __name__ == '__main__':
     random.seed(0)
     grid = plot.readBMPAsNumpyArray("../map/maze_map.bmp")
 
-    plotLim = [5, 25, 10, 25]
+    plotLim = [5, 25, 0, 25]
     initialPose = np.array([12, 18, 0])
     # 5 cm of variance in laser scanner.
     noiseSigma = 0.05
@@ -79,31 +120,43 @@ if __name__ == '__main__':
 
     robot = bot.Robot(grid, initialPose, motionModel, numRays, noiseSigma, resolution, limit)
 
-    poses = [initialPose]
-    measurements = []
+    poses, measurements = generateData(robot, command1, initialPose)
 
-    for i in range(len(command)):
-        poses.append(robot.motionUpdate(command[i], deltaT))
-        measurements.append(robot.measurementUpdate())
+    # Robot is delocalized to newPose
+    newPose = np.array([20, 20, 3.14])
+    robot = bot.Robot(grid, newPose, motionModel, numRays, noiseSigma, resolution, limit)
+    newPoses, newMeasurements = generateData(robot, command2, newPose)
+    # Remove first pose to match commands array dimension
+    newPoses.pop(0)
+    poses.extend(newPoses)
+    measurements.extend(newMeasurements)
+    command1.extend(command2)
+
 
     # We use different random seed to generate localization particles
     random.seed(1)
 
-    N = 100
-    poseGuess = [10, 20, 10, 20]
-    estimatedPoses = []
-    mcl = MCL.MonteCarloLocalization(grid, resolution, poseGuess, N, mclMotionModel, measurementModel)
+    N = 1000
+    poseGuess = [8, 22, 3, 23]
+    mcl = MCL.MonteCarloLocalization(grid,
+                                     resolution,
+                                     poseGuess,
+                                     N,
+                                     mclMotionModel,
+                                     measurementModel,
+                                     enableParticleInjection=True,
+                                     alphaFast=1.2,
+                                     alphaSlow=1)
 
-    for i in range(len(command)):
-        plot.plotOccupancyGrid(grid, resolution, plotLim)
-        plot.plotRobotPoses(mcl.getParticles(), 'r+')
-        # plot.plotRobotPose(mcl.calculateEstimatedPose(), 'r+')
-        plot.plotRobotPose(poses[i], 'bo')
-        plot.show()
-        mcl.motionUpdate(command[i], deltaT)
-        mcl.measurementUpdate(measurements[i])
-        mcl.resample()
+    estimatedPoses, particles = generateLocalizationData(mcl, command1, measurements, deltaT)
+
+    # for i in range(0, len(estimatedPoses)):
+    #     plot.plotOccupancyGrid(grid, resolution, plotLim)
+    #     plot.plotRobotPoses(particles[i], 'r+')
+    #     plot.plotRobotPose(poses[i], 'bo')
+    #     plot.show()
 
     plot.plotOccupancyGrid(grid, resolution)
     plot.plotRobotPoses(poses)
+    plot.plotRobotPoses(estimatedPoses, 'r+')
     plot.show()
