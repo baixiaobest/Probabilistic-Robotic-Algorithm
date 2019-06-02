@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
-import src.rangeFinderBeamModel as rm
+import src.Models.rangeFinderBeamModel as rm
 import numpy as np
-import src.plot as plot
+import src.Utils.plot as plot
 
 
 def probFunctionsTest():

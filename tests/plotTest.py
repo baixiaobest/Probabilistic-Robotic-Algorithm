@@ -1,5 +1,5 @@
-import src.plot as plot
-import src.raycast as rc
+import src.Utils.plot as plot
+import src.Utils.raycast as rc
 import numpy as np
 import matplotlib.pyplot as plt
 import math

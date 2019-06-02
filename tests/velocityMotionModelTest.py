@@ -1,6 +1,6 @@
 import numpy as np
-import src.plot as plot
-import src.velocityMotionModel as vm
+import src.Utils.plot as plot
+import src.Models.velocityMotionModel as vm
 
 def plotRobotMotion():
     N = 100

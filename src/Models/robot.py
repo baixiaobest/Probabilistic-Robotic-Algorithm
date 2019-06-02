@@ -1,6 +1,5 @@
-import raycast as rc
-import numpy as np
-import sampler as s
+import src.Utils.raycast as rc
+import src.Utils.sampler as s
 
 
 '''
@@ -41,9 +40,9 @@ class Robot:
 
         # Add noise to these measurements
         for i in range(len(measurements)):
-            distance = measurements[i][0]
+            distance = measurements[i][1]
             noisyDistance = distance + s.sampleNormal(0, self.noiseSigma)
-            measurements[i][0] = max(min(self.limit, noisyDistance), 0)
+            measurements[i][1] = max(min(self.limit, noisyDistance), 0)
 
         return measurements
 
