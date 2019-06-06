@@ -110,7 +110,7 @@ class MonteCarloLocalization:
 
         x = totalX / self.numParticles
         y = totalY / self.numParticles
-        theta = math.atan2(totalSin / self.numParticles, totalCos / self.numParticles)
+        theta = math.atan2(totalSin / self.numParticles, totalCos / self.numParticles) % (2 * math.pi)
 
         return np.array([x, y, theta])
 

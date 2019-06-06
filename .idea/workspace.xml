@@ -2,26 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0051667b-5963-4b58-95ba-14c3692b88a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Localization/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Mapping/OccupancyMap.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Mapping/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/occupancyMapTest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/FastSLAM/ParticleFilter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/FastSLAM/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Models/robotFeatureBased.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Utils/featuresGenerator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/featureBasedFastSLAMTest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MonteCarloLocalization.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Localization/MonteCarloLocalization.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/plot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rangeFinderBeamModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/rangeFinderBeamModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/raycast.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/raycast.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/robot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sampler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/sampler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/velocityMotionModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/velocityMotionModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/plotTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/plotTest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/rangeFinderBeamModelTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/rangeFinderBeamModelTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Localization/MonteCarloLocalization.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Localization/MonteCarloLocalization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/occupancyMapTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/occupancyMapTest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/robotTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/robotTest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/samplerTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/samplerTest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/velocityMotionModelTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/velocityMotionModelTest.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,8 +27,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Mapping/OccupancyMap.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="70" column="26" selection-start-line="70" selection-start-column="25" selection-end-line="70" selection-end-column="26" />
+            <state>
+              <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -46,13 +36,37 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/occupancyMapTest.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Models/robotFeatureBased.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="131" column="54" selection-start-line="131" selection-start-column="54" selection-end-line="131" selection-end-column="54" />
+            <state relative-caret-position="382">
+              <caret line="40" selection-start-line="40" selection-end-line="40" />
               <folding>
-                <element signature="e#0#30#0" expanded="true" />
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/featureBasedFastSLAMTest.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="406">
+              <caret line="42" selection-start-line="42" selection-end-line="42" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Utils/plot.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="403">
+              <caret line="61" selection-start-line="61" selection-end-line="61" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -61,20 +75,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Models/robot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-42">
-              <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#30#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/robotTest.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2349">
-              <caret line="160" column="45" lean-forward="true" selection-start-line="160" selection-start-column="45" selection-end-line="160" selection-end-column="45" />
+            <state relative-caret-position="450">
+              <caret line="31" column="45" selection-start-line="31" selection-start-column="45" selection-end-line="31" selection-end-column="45" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -96,6 +98,9 @@
     <findStrings>
       <find>pyplot</find>
       <find>normal</find>
+      <find>atan</find>
+      <find>self</find>
+      <find>resample</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -122,15 +127,22 @@
         <option value="$PROJECT_DIR$/src/robot.py" />
         <option value="$PROJECT_DIR$/src/MonteCarloLocalization.py" />
         <option value="$PROJECT_DIR$/src/Models/robot.py" />
-        <option value="$PROJECT_DIR$/tests/robotTest.py" />
         <option value="$PROJECT_DIR$/src/Mapping/OccupancyMap.py" />
+        <option value="$PROJECT_DIR$/tests/robotFeatureBasedTest.py" />
+        <option value="$PROJECT_DIR$/src/Utils/plot.py" />
+        <option value="$PROJECT_DIR$/src/Utils/featuresGenerator.py" />
         <option value="$PROJECT_DIR$/tests/occupancyMapTest.py" />
+        <option value="$PROJECT_DIR$/src/Localization/ParticleFilter.py" />
+        <option value="$PROJECT_DIR$/tests/robotTest.py" />
+        <option value="$PROJECT_DIR$/src/Localization/MonteCarloLocalization.py" />
+        <option value="$PROJECT_DIR$/src/Models/robotFeatureBased.py" />
+        <option value="$PROJECT_DIR$/tests/featureBasedFastSLAMTest.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="75" />
-    <option name="y" value="43" />
+    <option name="x" value="60" />
+    <option name="y" value="47" />
     <option name="width" value="1359" />
     <option name="height" value="846" />
   </component>
@@ -159,7 +171,7 @@
               <item name="Probabilitic Robotic Algorithm" type="b2602c69:ProjectViewProjectNode" />
               <item name="Probabilitic Robotic Algorithm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Localization" type="462c0819:PsiDirectoryNode" />
+              <item name="FastSLAM" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Probabilitic Robotic Algorithm" type="b2602c69:ProjectViewProjectNode" />
@@ -172,6 +184,12 @@
               <item name="Probabilitic Robotic Algorithm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Probabilitic Robotic Algorithm" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Probabilitic Robotic Algorithm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Probabilitic Robotic Algorithm" type="b2602c69:ProjectViewProjectNode" />
@@ -189,6 +207,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/FastSLAM" />
       <recent name="$PROJECT_DIR$/src/Utils" />
       <recent name="$PROJECT_DIR$/src/Models" />
       <recent name="$PROJECT_DIR$/src/Localization" />
@@ -206,7 +225,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.occupancyMapTest">
+  <component name="RunManager" selected="Python.featureBasedFastSLAMTest">
+    <configuration name="featureBasedFastSLAMTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Probabilitic Robotic Algorithm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/featureBasedFastSLAMTest.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="occupancyMapTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -220,27 +260,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/occupancyMapTest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="plotTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Probabilitic Robotic Algorithm" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/plotTest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -314,11 +333,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.occupancyMapTest" />
+        <item itemvalue="Python.featureBasedFastSLAMTest" />
         <item itemvalue="Python.robotTest" />
+        <item itemvalue="Python.occupancyMapTest" />
         <item itemvalue="Python.samplerTest" />
         <item itemvalue="Python.velocityMotionModelTest" />
-        <item itemvalue="Python.plotTest" />
       </list>
     </recent_temporary>
   </component>
@@ -347,16 +366,16 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="114" y="23" width="1359" height="846" extended-state="0" />
+    <frame x="60" y="47" width="1359" height="846" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.625222" visible="true" weight="0.24962631" />
-      <window_info id="Structure" order="1" sideWeight="0.37477797" side_tool="true" visible="true" weight="0.24962631" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6986971" visible="true" weight="0.24962631" />
+      <window_info id="Structure" order="1" sideWeight="0.30130294" side_tool="true" visible="true" weight="0.24962631" />
       <window_info id="Favorites" order="2" sideWeight="0.50080514" side_tool="true" weight="0.24962631" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32891247" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.15649867" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.25331566" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.1856764" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -477,40 +496,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utils/plot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/velocityMotionModel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="41" selection-start-line="29" selection-start-column="41" selection-end-line="29" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utils/sampler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2019.1/python_stubs/596071422/__builtin__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="3369" column="8" selection-start-line="3369" selection-start-column="8" selection-end-line="3369" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Python/2.7/site-packages/numpy/lib/function_base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="241">
@@ -533,16 +518,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.py" />
-    <entry file="file://$PROJECT_DIR$/tests/samplerTest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="20" lean-forward="true" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/rangeFinderBeamModelTest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -557,16 +532,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="219">
           <caret line="30" column="24" lean-forward="true" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Localization/MonteCarloLocalization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="56" column="55" selection-start-line="56" selection-start-column="55" selection-end-line="56" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -601,30 +566,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/robotTest.py">
+    <entry file="file://$PROJECT_DIR$/tests/samplerTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2349">
-          <caret line="160" column="45" lean-forward="true" selection-start-line="160" selection-start-column="45" selection-end-line="160" selection-end-column="45" />
+        <state relative-caret-position="180">
+          <caret line="12" column="44" lean-forward="true" selection-start-line="12" selection-start-column="44" selection-end-line="12" selection-end-column="44" />
           <folding>
-            <element signature="e#0#30#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Models/robot.py">
+    <entry file="file://$PROJECT_DIR$/src/Utils/sampler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-42">
-          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+        <state relative-caret-position="75">
+          <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utils/featuresGenerator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
           <folding>
-            <element signature="e#0#30#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Mapping/OccupancyMap.py">
+    <entry file="file://$PROJECT_DIR$/src/Models/velocityMotionModel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="70" column="26" selection-start-line="70" selection-start-column="25" selection-end-line="70" selection-end-column="26" />
+        <state relative-caret-position="316">
+          <caret line="31" column="42" lean-forward="true" selection-start-line="31" selection-start-column="42" selection-end-line="31" selection-end-column="42" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -633,10 +605,97 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/occupancyMapTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="131" column="54" selection-start-line="131" selection-start-column="54" selection-end-line="131" selection-end-column="54" />
+        <state relative-caret-position="960">
+          <caret line="72" column="21" selection-start-line="72" selection-start-column="21" selection-end-line="72" selection-end-column="21" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/robotTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="73" column="20" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utils/plot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="61" selection-start-line="61" selection-end-line="61" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/FastSLAM/ParticleFilter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Localization/MonteCarloLocalization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="482">
+          <caret line="95" column="37" lean-forward="true" selection-start-line="95" selection-start-column="37" selection-end-line="95" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mapping/OccupancyMap.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Models/robot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="31" column="45" selection-start-line="31" selection-start-column="45" selection-end-line="31" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2019.1/python_stubs/596071422/__builtin__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="3361" column="8" selection-start-line="3361" selection-start-column="8" selection-end-line="3361" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Models/robotFeatureBased.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="382">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/featureBasedFastSLAMTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -136,7 +136,7 @@ if __name__ == '__main__':
     # We use different random seed to generate localization particles
     random.seed(1)
 
-    N = 3000
+    N = 500
     poseGuess = [8, 22, 3, 23]
     mcl = MCL.MonteCarloLocalization(grid,
                                      resolution,

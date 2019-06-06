@@ -52,23 +52,6 @@ def generateData(robot, command, initialPose):
 
     return poses, measurements
 
-def generateLocalizationData(mcl, command, measurements, deltaT):
-
-    estimatedPoses = []
-    particles = []
-
-    for i in range(len(command)):
-        estimatedPoses.append(mcl.calculateEstimatedPose())
-        particles.append(mcl.getParticles())
-        mcl.motionUpdate(command[i], deltaT)
-        mcl.measurementUpdate(measurements[i])
-        mcl.resample()
-
-    estimatedPoses.append(mcl.calculateEstimatedPose())
-    particles.append(mcl.getParticles())
-
-    return estimatedPoses, particles
-
 
 if __name__ == '__main__':
     random.seed(0)
@@ -89,14 +72,6 @@ if __name__ == '__main__':
         alpha2=0.005,
         alpha3=0.005,
         alpha4=0.005,
-        alpha5=0.001,
-        alpha6=0.001)
-
-    mclMotionModel = vm.VelocityMotionModel(
-        alpha1=0.02,
-        alpha2=0.01,
-        alpha3=0.02,
-        alpha4=0.01,
         alpha5=0.001,
         alpha6=0.001)
 

@@ -56,6 +56,13 @@ def plotRobotPoses(poses, style='bo'):
     for i in range(len(poses)):
         plotRobotPose(poses[i], style)
 
+def plotFeatures(features, style='r+'):
+    xlist = []
+    ylist = []
+    for i in range(len(features)):
+        xlist.append(features[i][0])
+        ylist.append(features[i][1])
+    plt.plot(xlist, ylist, style)
 
 def limit(xs, xe, ys, ye):
     plt.xlim(xs, xe)
