@@ -4,7 +4,7 @@ import numpy as np
 
 
 class robotFeatureBased:
-    # initialPose: Initial position & orientation of the robot.
+    # initialPose: Initial position & orientation of the robot, in [x, y, theta].
     # motionModel: A motion model that can sample new pose from previous pose.
     # features: A list of features detectable by robot. A feature is np array of [x, y]
     # detectionRange: Range of robot detection.
@@ -28,7 +28,7 @@ class robotFeatureBased:
 
     # Perform measurement on surrounding features.
     # It returns a list of features' bearings and distances if these features are within detection range.
-    # Bearings are absolute bearings regardless of robot orientation.
+    # Bearings are relative bearings to robot orientation.
     def measurementUpdate(self):
         detectionRangeSq = self.detectionRange ** 2
         measurements = []
@@ -41,10 +41,13 @@ class robotFeatureBased:
                 dist = math.sqrt(distSq)
                 measuredDist = min(s.sampleNormal(dist, self.distanceNoise), self.detectionRange)
                 angle = math.atan2(dy, dx) % (2 * math.pi)
-                measuredAngle = s.sampleNormal(angle, self.angleNoise) % (2 * math.pi)
+                measuredAngle = (s.sampleNormal(angle, self.angleNoise) - self.pose[2]) % (2 * math.pi)
                 measurements.append(np.array([measuredAngle, measuredDist]))
 
         return measurements
 
     def getPose(self):
         return self.pose
+
+    def setPose(self, pose):
+        self.pose = pose
