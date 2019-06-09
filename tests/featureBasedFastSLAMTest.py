@@ -5,7 +5,8 @@ import numpy as np
 import src.Models.velocityMotionModel as vm
 import math
 import random
-import src.FastSLAM.FastSLAM_1 as slam
+import src.FastSLAM.FastSLAM as slam
+import src.FastSLAM.particle as p
 
 command = [
     np.array([1, 0]),
@@ -44,12 +45,12 @@ def calulateFeaturesPositionsFromMeasurements(measurements, pose):
 if __name__ == '__main__':
     random.seed(1)
 
-    numFeatures = 100
+    numFeatures = 200
     xmin = 0
     xmax = 20
     ymin = 0
     ymax = 20
-    deltaT = 3
+    deltaT = 1
 
     landmarks = fg.generateFeatures(xmin, xmax, ymin, ymax, numFeatures)
 
@@ -66,13 +67,23 @@ if __name__ == '__main__':
         alpha5=0.001,
         alpha6=0.001)
 
-    numParticles = 1
+    slamMotionModel = vm.VelocityMotionModel(
+        alpha1=0.014,
+        alpha2=0.007,
+        alpha3=0.007,
+        alpha4=0.007,
+        alpha5=0.0014,
+        alpha6=0.0014)
+
+    numParticles = 30
     measurementsCovariance = np.array([[angleNoise, 0], [0, distanceNoise]])
 
     random.seed(1)
 
     robot = r.robotFeatureBased(initialPose, motionModel, landmarks, detectionRange, angleNoise, distanceNoise)
-    fastSlam = slam.FastSLAM_1(numParticles, initialPose, motionModel, measurementsCovariance)
+
+    particle = p.particle(initialPose, slamMotionModel, measurementsCovariance, 0.8 * detectionRange, newFeatureWeight=0.00001)
+    fastSlam = slam.FastSLAM(numParticles, particle)
 
     poses = [initialPose]
     measurements = []
@@ -86,19 +97,23 @@ if __name__ == '__main__':
         measurements.append(robot.measurementUpdate())
 
     for i in range(len(measurements)):
-        fastSlam.getParticles()[0].setPose(poses[i])
         fastSlam.measurementUpdate(measurements[i])
-        particle = fastSlam.getParticles()[0]
+        particle = fastSlam.getBestParticle()
         fPositions = map(lambda f: f.getPosition(), particle.getFeatures())
 
         plot.plotRobotPose(poses[i])
+        # plot.plotRobotPoses(map(lambda p: p.getPose(), fastSlam.getParticles()), style="ro")
         plot.plotRobotPose(particle.getPose(), style="ro")
         plot.plotFeatures(fPositions, 'bo')
         plot.plotFeatures(landmarks)
         plot.show()
 
+        fastSlam.resample()
+
         if i < len(command):
             fastSlam.motionUpdate(command[i], deltaT)
-    # plot.plotRobotPoses(poses)
-    # plot.plotFeatures(landmarks)
-    # plot.show()
+
+    plot.plotRobotPoses(poses)
+    plot.plotRobotPoses(fastSlam.getBestParticle().getPath(), style="ro")
+    plot.plotFeatures(landmarks)
+    plot.show()

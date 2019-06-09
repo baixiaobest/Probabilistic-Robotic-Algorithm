@@ -1,19 +1,23 @@
 import numpy as np
 import random
+import copy
 
 # Resample all the particles based on their current weights.
-def ParticleFilter(particles, numParticles):
+def ParticleFilter(particles, weights):
     normalizer = 0
-    for i in range(numParticles):
-        normalizer += particles[i][-1]
+    numParticles = len(particles)
+    normalizedWeights = copy.deepcopy(weights)
 
     for i in range(numParticles):
-        particles[i][3] = particles[i][-1] / normalizer
+        normalizer += weights[i]
+
+    for i in range(numParticles):
+        normalizedWeights[i] = normalizedWeights[i] / normalizer
 
     # Start resampling from old particles
     step = 1.0 / (numParticles)
     r = random.uniform(0.0, step)
-    c = particles[0][-1]
+    c = normalizedWeights[0]
     i = 0
 
     newParticles = []
@@ -21,9 +25,9 @@ def ParticleFilter(particles, numParticles):
         U = r + m * step
         while U > c:
             i = i + 1
-            c = c + particles[i][-1]
-        newParticle = np.array(particles[i], copy=True)
-        newParticle[-1] = 1
+            c = c + normalizedWeights[i]
+        newParticle = copy.deepcopy(particles[i])
+        newParticle.setWeight(1)
         newParticles.append(newParticle)
 
     return newParticles

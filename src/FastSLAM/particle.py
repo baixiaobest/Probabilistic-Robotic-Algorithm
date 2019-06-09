@@ -8,19 +8,33 @@ import feature as f
 Particle in the FastSLAM.
 '''
 class particle:
-    def __init__(self, pose, motionModel, measurementNoiseCov):
+    # pose: Initial pose of the particle.
+    # motionModel: Motion model for motion update.
+    # measurementNoiseCov: Noise covariance of the measurement noise.
+    # perceptionRange: Range this robot can perceive, used to reject outlier features.
+    def __init__(self, pose, motionModel, measurementNoiseCov, perceptionRange, newFeatureWeight):
         self.pose = pose
         self.motionModel = motionModel
         self.measurementNoiseCov = measurementNoiseCov
+        self.perceptionRange = perceptionRange
+
+        # We store weight as negative logarithmic.
+        self.newFeatureWeight = -math.log(newFeatureWeight)
+        self.importanceWeight = 0
 
         # Measurement that has correspondance likelihood lower than
         # this threshold is considered a new feature.
         self.correspondanceLikelihoodThreshold = 0.01
         self.features = []
+        # A path of past poses
+        self.path = [pose]
 
     def motionUpdate(self, command, deltaT):
         self.pose = self.motionModel.sampleNewPose(command, self.pose, deltaT)
+        self.path.append(self.pose)
 
+    # Incorporate feature measurements. Determine if the measurements are previously
+    # observed features or new features.
     def measurementUpdate(self, measurements):
         matchedFeaturesIdx = []
 
@@ -33,6 +47,7 @@ class particle:
                 newFeature = self._initializeFeature(self.pose, z)
                 self.features.append(newFeature)
                 matchedFeaturesIdx.append(len(self.features) - 1)
+                self.importanceWeight += self.newFeatureWeight
             # This measurement is observed before.
             else:
                 # Observed Feature
@@ -52,10 +67,32 @@ class particle:
 
                 self.features[featureIdx].setPosition(mu_new.transpose()[0])
                 self.features[featureIdx].setCovariance(cov_new)
+                self.features[featureIdx].incrementCounter()
 
                 matchedFeaturesIdx.append(featureIdx)
+                self.importanceWeight += -math.log(likelihood)
+
+        self._removeOutlierFeatures(matchedFeaturesIdx)
 
 
+
+    # Remove the outlier features that is supposed to be observed with counter number of 0.
+    def _removeOutlierFeatures(self, matchedFeaturesIdx):
+        perceptionRangeSq = self.perceptionRange ** 2
+
+        i = 0
+        while i < len(self.features):
+            if i not in matchedFeaturesIdx:
+                fPosition = self.features[i].getPosition()
+                distSq = (fPosition[0] - self.pose[0]) ** 2 + (fPosition[1] - self.pose[1]) ** 2
+
+                # Features that are within perception range but not matched.
+                if distSq < perceptionRangeSq:
+                    self.features[i].decrementCounter()
+                    if self.features[i].getCounter() <= 0:
+                        del self.features[i]
+                        continue
+            i += 1
 
 
     # Calculate the jacobian matrix of measurement model.
@@ -137,6 +174,9 @@ class particle:
             w = 1.0 / math.sqrt(np.fabs(la.det(2 * math.pi * m_cov))) \
                 * np.exp(- 1.0 / 2.0 * np.dot(z_inov.transpose(), np.dot(la.inv(m_cov), z_inov))[0, 0])
 
+            # w is not suppose to be larger than 1, but somehow it is.
+            # w = min(1.0, w)
+
             if w > maxLikelihood:
                 maxLikelihood = w
                 featureIdx = i
@@ -150,8 +190,17 @@ class particle:
     def setPose(self, pose):
         self.pose = pose
 
+    def getPath(self):
+        return self.path
+
     def addFeature(self, feature):
         self.features.append(feature)
 
     def getFeatures(self):
         return self.features
+
+    def getWeight(self):
+        return math.exp(-self.importanceWeight)
+
+    def setWeight(self, weight):
+        self.importanceWeight = -math.log(weight)
