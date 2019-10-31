@@ -74,7 +74,7 @@ def show():
 
 
 def readBMPAsNumpyArray(file):
-    img = Image.open("../map/maze_map.bmp")
+    img = Image.open(file)
     data = np.array((img.getdata()))
     width, height = img.size
     data = data.reshape(height, width)

@@ -88,14 +88,14 @@ if __name__ == '__main__':
 
     poses, measurements = generateData(robot, command1, initialPose)
 
-    shape = (grid.shape[0] / 10, grid.shape[1] / 10)
+    shape = (int(grid.shape[0] / 10), int(grid.shape[1] / 10))
     origin = [0, 0]
     mapResolution = 0.1
     locc = 1
     lfree = -1
     alpha = 0.5
     beta = 2 * math.pi / numRays
-    map = occmap.OccupancyMap(shape, origin, mapResolution, locc, lfree, limit, alpha, beta)
+    map = occmap.OccupancyMap(shape[:], origin, mapResolution, locc, lfree, limit, alpha, beta)
 
     for i in range(len(poses)):
         pose = poses[i]
