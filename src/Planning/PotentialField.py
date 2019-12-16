@@ -149,7 +149,7 @@ class PotentialField:
 
     def get_attractive_potential_field(self):
         if self.goal is None:
-            raise RuntimeError("You need to set goal using set_goal function.")
+            raise Exception("You need to set goal using set_goal function.")
 
         if self.attractive_potential_field is None:
             self._compute_attractive_potential_field(self.goal)
