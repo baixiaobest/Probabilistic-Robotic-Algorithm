@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0051667b-5963-4b58-95ba-14c3692b88a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Planning/InverseKinematics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/inverseKinematicsTest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Planning/ProbabilisticRoadmap.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Planning/RandomConfigSampler.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Planning/RectangleLocalPlanner.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Planning/RoadmapNode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Planning/PotentialField.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planning/PotentialField.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +57,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.inverseKinematicsTest">
+  <component name="RunManager" selected="Python.rangeFinderBeamModelTest">
     <configuration name="featureBasedFastSLAMTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -141,7 +142,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="robotTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="rangeFinderBeamModelTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -153,7 +154,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/robotTest.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/rangeFinderBeamModelTest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -164,11 +165,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.rangeFinderBeamModelTest" />
         <item itemvalue="Python.inverseKinematicsTest" />
         <item itemvalue="Python.potentialFieldTest" />
         <item itemvalue="Python.occupancyMapTest" />
         <item itemvalue="Python.featureBasedFastSLAMTest" />
-        <item itemvalue="Python.robotTest" />
       </list>
     </recent_temporary>
   </component>
