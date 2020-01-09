@@ -49,12 +49,13 @@ class RandomConfigSampler:
             # find a sample not in collision.
             if is_in_collision:
                 while is_in_collision and free_trial_count < trials:
-                    config_around_obstacle = self._gaussian_sample_around_config(config_in_collision, sigmas)
-                    is_in_collision = self.local_planner.is_in_collision(config_around_obstacle)
+                    gauss_sample_config = self._gaussian_sample_around_config(config_in_collision, sigmas)
+                    is_in_collision = self.local_planner.is_in_collision(gauss_sample_config)
                     free_trial_count = free_trial_count + 1
 
                 # A free config is found.
                 if is_in_collision is False:
+                    config_around_obstacle = gauss_sample_config
                     break
 
             collision_trial_count = collision_trial_count + 1
@@ -72,7 +73,7 @@ class RandomConfigSampler:
     def _gaussian_sample_around_config(self, config, sigmas):
         new_config = []
         for idx, sigma in enumerate(sigmas):
-            new_config.append(np.random.normal(config[idx], sigma, 1))
+            new_config.append(np.random.normal(config[idx], sigma, 1)[0])
 
         return new_config
 

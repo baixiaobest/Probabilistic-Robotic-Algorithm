@@ -25,24 +25,32 @@ class RectangleLocalPlanner:
     Check if a given config (x, y, theta) of the robot is in collision with the obstacle.
     '''
     def is_in_collision(self, config):
-        # Four control points for collision detection.
+        # Five control points for collision detection.
+        center = np.array([0, 0])
         front_left = np.array([0.5 * self.length, 0.5 * self.width])
         front_right = np.array([0.5 * self.length, -0.5 * self.width])
         rear_left = np.array([-0.5 * self.length, 0.5 * self.width])
         rear_right = np.array([-0.5 * self.length, -0.5 * self.width])
 
         # Assume obstacles are always larger than the robot.
-        # So we can use 4 control points to check collision.
-        control_points = [front_left, front_right, rear_left, rear_right]
+        # So we can use 5 control points to check collision.
+        control_points = [center, front_left, front_right, rear_left, rear_right]
 
         for control_point in control_points:
             # Calculate the position of the control points given a configuration.
-            pos = control_point * np.array([[np.cos(config[2]), -np.sin(config[2])],
-                                            [np.sin(config[2]), np.cos(config[2])]])\
-                + np.array([config[0], config[1]])
+            x, y, theta = config
+            pos = np.array([
+                control_point[0] * np.cos(theta) - control_point[1] * np.sin(theta) + x,
+                control_point[0] * np.sin(theta) + control_point[1] * np.cos(theta) + y])
+
             col, row = int(pos[0] / self.resolution), int(pos[1] / self.resolution)
 
-            if self.obstacle_map[row, col] == self.OBSTACLE_NUM:
+            height, width = self.obstacle_map.shape
+
+            # When control point is outside of the obstacle map, consider it as
+            # in collision.
+            if row >= height or row < 0 or col >= width or col < 0 \
+                    or self.obstacle_map[row, col] == self.OBSTACLE_NUM:
                 return True
 
         return False

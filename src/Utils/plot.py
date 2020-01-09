@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 import math
-
+from matplotlib import collections as mc
 
 def plotOccupancyGrid(grid, resolution, lim=None):
     height, width = grid.shape
@@ -15,7 +15,8 @@ def plotOccupancyGrid(grid, resolution, lim=None):
     # Loop through every pixel in the arr.
     for y in range(height):
         for x in range(width):
-            if grid[y, x] < 100:
+            # Occupied cell has value of 0.
+            if grid[y, x] == 0:
                 xPos[idx] = x * resolution
                 yPos[idx] = y * resolution
                 idx += 1
@@ -63,6 +64,33 @@ def plotFeatures(features, style='r+'):
         xlist.append(features[i][0])
         ylist.append(features[i][1])
     plt.plot(xlist, ylist, style)
+
+'''
+configs: List of rectangle configuration: [(x, y, theta), ...]
+'''
+def plotRectangles(configs, width, length):
+    lines = []
+    for config in configs:
+        x, y, theta = config
+        front_left = [0.5 * length, 0.5 * width]
+        front_right = [0.5 * length, -0.5 * width]
+        rear_left = [-0.5 * length, 0.5 * width]
+        rear_right = [-0.5 * length, -0.5 * width]
+        vertices = [front_left, front_right, rear_right, rear_left]
+        vertices_transformed = []
+        for vertex in vertices:
+            vx, vy = vertex
+            vertices_transformed.append([
+                vx * np.cos(theta) - vy * np.sin(theta) + x,
+                vx * np.sin(theta) + vy * np.cos(theta) + y])
+
+        for i in range(len(vertices_transformed)):
+            next_idx = (i + 1) % len(vertices_transformed)
+            lines.append([vertices_transformed[i], vertices_transformed[next_idx]])
+
+    lc = mc.LineCollection(lines)
+    ax = plt.gca()
+    ax.add_collection(lc)
 
 def limit(xs, xe, ys, ye):
     plt.xlim(xs, xe)
