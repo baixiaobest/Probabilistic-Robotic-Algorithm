@@ -117,7 +117,7 @@ class ProbabilisticRoadmap:
             path = [config_start]
             path += self._reconstruct_path(path_dict, start_node.get_id(), goal_node.get_id())
             path.append(config_goal)
-            return path
+            return self._post_process_path(path)
         else:
             return None
 
@@ -171,3 +171,24 @@ class ProbabilisticRoadmap:
         path_config.reverse()
 
         return path_config
+
+    def _post_process_path(self, path):
+        if len(path) < 2:
+            return path
+
+        curr_idx = 0
+        processed_path = []
+        while curr_idx < len(path):
+            lookahead_idx = curr_idx + 1
+            while lookahead_idx < len(path) and \
+                    self.local_planner.check_connection(path[curr_idx], path[lookahead_idx]):
+                lookahead_idx += 1
+            lookahead_idx -= 1
+            processed_path.append(path[curr_idx])
+
+            if lookahead_idx != curr_idx:
+                curr_idx = lookahead_idx
+            else:
+                curr_idx += 1
+
+        return processed_path

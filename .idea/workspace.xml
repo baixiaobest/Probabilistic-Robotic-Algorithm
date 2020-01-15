@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0051667b-5963-4b58-95ba-14c3692b88a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/probabilisticRoadMapTest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Planning/ProbabilisticRoadmap.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planning/ProbabilisticRoadmap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Planning/RectangleLocalPlanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planning/RectangleLocalPlanner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Planning/RoadmapNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planning/RoadmapNode.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/plot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/localPlannerTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/localPlannerTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/probabilisticRoadMapTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/probabilisticRoadMapTest.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -212,13 +208,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/Planning/ProbabilisticRoadmap.py</url>
-          <line>72</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

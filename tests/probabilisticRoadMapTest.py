@@ -31,7 +31,7 @@ if __name__ == '__main__':
     plot.plotLines(connections)
     plot.show()
     start_config = (9, 8, 0.5)
-    goal_config = (7, 1, 1)
+    goal_config = (1, 1, 1)
     path = roadmap.query(start_config, goal_config)
     path_lines = []
     for i in range(len(path) - 1):
