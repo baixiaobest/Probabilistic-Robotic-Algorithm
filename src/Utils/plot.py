@@ -68,7 +68,7 @@ def plotFeatures(features, style='r+'):
 '''
 configs: List of rectangle configuration: [(x, y, theta), ...]
 '''
-def plotRectangles(configs, width, length):
+def plotRectangles(configs, width, length, color=(0, 0, 1, 1)):
     lines = []
     for config in configs:
         x, y, theta = config
@@ -88,7 +88,17 @@ def plotRectangles(configs, width, length):
             next_idx = (i + 1) % len(vertices_transformed)
             lines.append([vertices_transformed[i], vertices_transformed[next_idx]])
 
-    lc = mc.LineCollection(lines)
+    lc = mc.LineCollection(lines, colors=color)
+    ax = plt.gca()
+    ax.add_collection(lc)
+
+
+'''
+Plot line segments.
+lines: A list of lines, defined as [[(x0, y0), (x1, y1)], [...], ...]
+'''
+def plotLines(lines, color=(1, 0, 0, 1)):
+    lc = mc.LineCollection(lines, colors=color)
     ax = plt.gca()
     ax.add_collection(lc)
 

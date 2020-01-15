@@ -14,7 +14,7 @@ if __name__ == '__main__':
     local_planner = rlp.RectangleLocalPlanner(obstacle_map, resolution, step_size, robot_width, robot_length)
 
     config_sampler = rcs.RandomConfigSampler(local_planner)
-    num_samples = 100
+    num_samples = 20
 
     # Uniformly sample configurations.
 
@@ -29,12 +29,25 @@ if __name__ == '__main__':
     # Sample around obstacles.
     sigmas = (0.1, 0.1, 0.5)
     biased_configs = []
-    num_biased_samples = 100
+    num_biased_samples = 20
     for i in range(num_biased_samples):
-        new_config = config_sampler.sample_around_obstacle(sigmas, trials=100)
+        new_config = config_sampler.sample_around_obstacle(sigmas, trials=200)
         if new_config is not None:
             biased_configs.append(new_config)
 
     plot.plotOccupancyGrid(obstacle_map, resolution)
     plot.plotRectangles(biased_configs, robot_width, robot_length)
+    plot.show()
+
+    # Check all possible connection.
+    all_configs = uniform_configs + biased_configs
+    connections = []
+    for i in range(len(all_configs)):
+        for j in range(i, len(all_configs)):
+            if local_planner.check_connection(all_configs[i], all_configs[j]):
+                connections.append([all_configs[i][0:2], all_configs[j][0:2]])
+
+    plot.plotOccupancyGrid(obstacle_map, resolution)
+    plot.plotRectangles(all_configs, robot_width, robot_length)
+    plot.plotLines(connections)
     plot.show()

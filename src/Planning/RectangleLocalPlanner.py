@@ -23,18 +23,23 @@ class RectangleLocalPlanner:
 
     '''
     Check if a given config (x, y, theta) of the robot is in collision with the obstacle.
+    Return true if it is in collision.
     '''
     def is_in_collision(self, config):
         # Five control points for collision detection.
         center = np.array([0, 0])
+        front = np.array([0.5 * self.length, 0])
+        back = np.array([-0.5 * self.length, 0])
+        left = np.array([0, 0.5 * self.width])
+        right = np.array([0, -0.5 * self.width])
         front_left = np.array([0.5 * self.length, 0.5 * self.width])
         front_right = np.array([0.5 * self.length, -0.5 * self.width])
         rear_left = np.array([-0.5 * self.length, 0.5 * self.width])
         rear_right = np.array([-0.5 * self.length, -0.5 * self.width])
 
         # Assume obstacles are always larger than the robot.
-        # So we can use 5 control points to check collision.
-        control_points = [center, front_left, front_right, rear_left, rear_right]
+        # So we can use 9 control points to check collision.
+        control_points = [center, front, back, left, right, front_left, front_right, rear_left, rear_right]
 
         for control_point in control_points:
             # Calculate the position of the control points given a configuration.
@@ -57,6 +62,7 @@ class RectangleLocalPlanner:
 
     '''
     Check the connection from config_start to config_end is collision free.
+    Return true if connected.
     config_start, config_end: Tuple of (x, y, theta).
     '''
     def check_connection(self, config_start, config_end):

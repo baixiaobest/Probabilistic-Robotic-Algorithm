@@ -18,10 +18,10 @@ class RoadmapNode:
         return self.neighbors
 
     def __len__(self):
-        return 2
+        return 3
 
     def __getitem__(self, i):
-        return self.config[0:2]
+        return self.config[i]
 
     def __repr__(self):
         return 'Item({}, {})'.format(self.config[0], self.config[1])

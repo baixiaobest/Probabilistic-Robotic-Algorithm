@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0051667b-5963-4b58-95ba-14c3692b88a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/localPlannerTest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/probabilisticRoadMapTest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Planning/RandomConfigSampler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planning/RandomConfigSampler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Planning/ProbabilisticRoadmap.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planning/ProbabilisticRoadmap.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Planning/RectangleLocalPlanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planning/RectangleLocalPlanner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Planning/RoadmapNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planning/RoadmapNode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Utils/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/localPlannerTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/localPlannerTest.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +59,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.localPlannerTest">
+  <component name="RunManager" selected="Python.probabilisticRoadMapTest">
     <configuration name="inverseKinematicsTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -100,27 +102,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="occupancyMapTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Probabilitic Robotic Algorithm" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/occupancyMapTest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="potentialFieldTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -134,6 +115,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/potentialFieldTest.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="probabilisticRoadMapTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Probabilitic Robotic Algorithm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/probabilisticRoadMapTest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -165,11 +167,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.probabilisticRoadMapTest" />
         <item itemvalue="Python.localPlannerTest" />
         <item itemvalue="Python.rangeFinderBeamModelTest" />
         <item itemvalue="Python.inverseKinematicsTest" />
         <item itemvalue="Python.potentialFieldTest" />
-        <item itemvalue="Python.occupancyMapTest" />
       </list>
     </recent_temporary>
   </component>
@@ -210,6 +212,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/Planning/ProbabilisticRoadmap.py</url>
+          <line>72</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
