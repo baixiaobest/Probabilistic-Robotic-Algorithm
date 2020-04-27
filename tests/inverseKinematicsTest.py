@@ -2,7 +2,7 @@ import numpy as np
 import src.Utils.plot as plot
 import matplotlib.pyplot as plt
 from matplotlib import collections as c
-import src.Planning.InverseKinematics as ik
+import src.Planning.PotentialField.InverseKinematics as ik
 from matplotlib import colors as mcolors
 
 if __name__ == "__main__":

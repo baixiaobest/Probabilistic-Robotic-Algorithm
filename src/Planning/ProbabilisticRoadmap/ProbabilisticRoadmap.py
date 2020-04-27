@@ -1,5 +1,5 @@
-import src.Planning.RandomConfigSampler as rcs
-import src.Planning.RoadmapNode as rn
+import src.Planning.ProbabilisticRoadmap.RandomConfigSampler as rcs
+import src.Planning.ProbabilisticRoadmap.RoadmapNode as rn
 import kdtree as kd
 import heapq as pq
 import numpy as np

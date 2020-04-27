@@ -1,7 +1,5 @@
-import numpy as np
 import src.Utils.plot as plot
-import matplotlib.pyplot as plt
-import src.Planning.RectangleLocalPlanner as rlp
+import src.Planning.ProbabilisticRoadmap.RectangleLocalPlanner as rlp
 import src.Planning.ProbabilisticRoadmap as prm
 import random
 

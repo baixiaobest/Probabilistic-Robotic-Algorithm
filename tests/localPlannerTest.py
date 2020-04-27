@@ -1,8 +1,6 @@
-import numpy as np
 import src.Utils.plot as plot
-import matplotlib.pyplot as plt
-import src.Planning.RectangleLocalPlanner as rlp
-import src.Planning.RandomConfigSampler as rcs
+import src.Planning.ProbabilisticRoadmap.RectangleLocalPlanner as rlp
+import src.Planning.ProbabilisticRoadmap.RandomConfigSampler as rcs
 
 if __name__ == '__main__':
     obstacle_map = plot.readBMPAsNumpyArray("../map/small_obstacle_map.bmp")
