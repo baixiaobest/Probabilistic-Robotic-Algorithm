@@ -1,7 +1,6 @@
 import numpy as np
 import src.Planning.HybridAStar.DubinCircle as dc
 import math
-from functools import reduce
 
 class CircularPath:
     def __init__(self, position, start_theta, end_theta, circle_type, radius):
@@ -9,9 +8,32 @@ class CircularPath:
         self.start_theta = (start_theta + 2 * np.pi) % (2 * np.pi)
         self.end_theta = (end_theta + 2 * np.pi) % (2 * np.pi)
         self.cirle_type = circle_type
-        self.raidus = radius
+        self.radius = radius
+
     def length(self):
-        # The angular distance from starting position to end position.
+        return self._path_theta() * self.radius
+
+    def generate_points(self, point_interval):
+        theta_invteral = point_interval / self.radius
+        path_theta = self._path_theta()
+        num_points = int(path_theta / theta_invteral)
+
+        x_axis = np.array([1.0, 0])
+        points = []
+        for i in range(num_points):
+            theta = 0
+            if self.cirle_type == dc.CircleType.COUNTER_CLOCKWISE:
+                theta = self.start_theta + i * theta_invteral
+            else:
+                theta = self.start_theta - i * theta_invteral
+
+            points.append(self.position \
+                          + np.array([[np.cos(theta), -np.sin(theta)],
+                                      [np.sin(theta), np.cos(theta)]]) @ x_axis * self.radius)
+        return points
+
+    """ The angular distance from starting position to end position. """
+    def _path_theta(self):
         path_theta = 0
         if self.cirle_type == dc.CircleType.COUNTER_CLOCKWISE:
             theta_end_start = self.end_theta - self.start_theta
@@ -26,14 +48,28 @@ class CircularPath:
                 path_theta = theta_start_end
             else:
                 path_theta = 2 * np.pi + theta_start_end
-        return path_theta * self.raidus
+        return path_theta
+
 
 class StraightPath:
     def __init__(self, start_position, end_position):
         self.start_position = start_position
         self.end_position = end_position
+
     def length(self):
         return np.linalg.norm(self.end_position - self.start_position)
+
+    def generate_points(self, point_interval):
+        vec_start_end = self.end_position - self.start_position
+        distance = np.linalg.norm(vec_start_end)
+        vec_start_end_normalized = vec_start_end / distance
+        num_points = int(distance / point_interval)
+        points = []
+
+        for i in range(num_points):
+            points.append(self.start_position + i * point_interval * vec_start_end_normalized)
+
+        return points
 
 class DubinsCurve:
     """
@@ -44,7 +80,9 @@ class DubinsCurve:
         self.start = np.array(start).astype(float)
         self.end = np.array(end).astype(float)
         self.turning_radius = turning_radius
+        self.path = None
 
+    """ Compute the shortest CSC or CCC path, return path and length. """
     def compute(self):
         # find CSC solution
         csc_path, csc_length = self._find_CSC_solution()
@@ -52,9 +90,21 @@ class DubinsCurve:
         ccc_path, ccc_length = self._find_CCC_solution()
 
         if csc_length < ccc_length:
+            self.path = csc_path
             return csc_path, csc_length
         else:
+            self.path = ccc_path
             return ccc_path, ccc_length
+
+    """ Generate points after computing the shortest path. Call this after compute function. """
+    def generate_points(self, point_interval=0.1):
+        if self.path is None or len(self.path) == 0:
+            return []
+        points = []
+        for item in self.path:
+            points += item.generate_points(point_interval)
+
+        return points
 
     def _find_CSC_solution(self):
         circles = self._find_tangent_cirlces()
@@ -78,9 +128,11 @@ class DubinsCurve:
         length_1 = self._calculate_path_length(path_1)
         length_2 = self._calculate_path_length(path_2)
 
-        return path_1, length_1 \
-            if length_1 < length_2 \
-            else path_2, length_2
+        if length_1 < length_2:
+            return path_1, length_1
+        else:
+            return path_2, length_2
+
 
     """ Find path between two Dubin circle, path consists for three arcs, second arc has angle larger than pi. """
     def _calculate_two_circles_CCC_path(self, start_circle, end_circle):
@@ -94,14 +146,15 @@ class DubinsCurve:
         distance = np.linalg.norm(vec_start_end)
         vec_normalized = vec_start_end / distance
 
-        # A tange circle between start and end circle could not be found
+        # A tangent circle between start and end circle could not be found
         # because they are too far away.
         if distance >= 4 * self.turning_radius:
             return []
 
         # Angle from vec_normalized to the tangent circle.
-        dtheta_start = np.arccos(distance / (2 * self.turning_radius))
-        # The tangent circle is on the right side of the vec_normalized
+        dtheta_start = np.arccos(distance / (4 * self.turning_radius))
+        # The tangent circle is on the right side of the vec_normalized if first circle is clockwise.
+        # The tangent circle is on the left side of the vec_normalized if first circle is counter clockwise
         if start_circle.circle_type == dc.CircleType.CLOCKWISE:
             dtheta_start = -dtheta_start
         dtheta_end = np.pi - dtheta_start
@@ -111,8 +164,8 @@ class DubinsCurve:
                                               [np.sin(dtheta_start), np.cos(dtheta_start)]]) \
                                   @ vec_normalized * self.turning_radius
         # Vector from end circle to the tangent point.
-        vec_tangent_point_end = np.array([[np.cos(dtheta_start), -np.sin(dtheta_start)],
-                                          [np.sin(dtheta_start), np.cos(dtheta_start)]]) \
+        vec_tangent_point_end = np.array([[np.cos(dtheta_end), -np.sin(dtheta_end)],
+                                          [np.sin(dtheta_end), np.cos(dtheta_end)]]) \
                                 @ vec_normalized * self.turning_radius
 
         # Position of the two tangent points and tangent circle position.
@@ -156,7 +209,6 @@ class DubinsCurve:
                                  self.turning_radius))
 
         return path
-
 
     """ 
         Find four circles tangent to the starting position and the ending position. 
@@ -203,7 +255,7 @@ class DubinsCurve:
 
         # When two circles are of different type and they are overlapping, no solution can be found.
         if distance < 2 * self.turning_radius and not start_circle.circle_type == end_circle.circle_type:
-            return math.inf, []
+            return []
 
         # Calculate the line segment that is tangent to both circles.
 
@@ -269,14 +321,20 @@ class DubinsCurve:
 
         return path
 
+    """ Given a path, calculate its length. """
     def _calculate_path_length(self, path):
+        # If there is no path, this path is considered infinitely long
         if len(path) == 0:
-            return 0
-        return reduce(lambda sum, ele : sum + ele.length(), path)
+            return math.inf
+        sum = 0
+        for item in path:
+            sum += item.length()
+        return sum
 
+    """ Angle difference between two vector. Return signed angle difference. """
     def _angle_diff(self, a, b):
         theta = np.arccos(a @ b / (np.linalg.norm(a) * np.linalg.norm(b)))
-        cross = np.cross(a, b)[0]
+        cross = np.cross(a, b)
         if cross > 0:
             theta = -theta
         return theta

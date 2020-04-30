@@ -1,6 +1,6 @@
-import enum
+from enum import Enum
 
-class CircleType(enum):
+class CircleType(Enum):
     CLOCKWISE = 1
     COUNTER_CLOCKWISE = 2
 
