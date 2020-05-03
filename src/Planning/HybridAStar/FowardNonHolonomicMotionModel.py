@@ -9,6 +9,7 @@ class FowardNonHolonomicMotionModel:
     num_angle_controls: Number of discrete wheel controls.
     car_axis_length: Distance from front axel to rear axel.
     distance_increment: distance traversed after applying action.
+        This distance should be less than the circumference of the smallest turning circle.
     """
     def __init__(self, wheel_max_angle, num_angle_controls, car_axel_length, distance_increment):
         self.wheel_max_angle = float(wheel_max_angle)
@@ -54,21 +55,22 @@ class FowardNonHolonomicMotionModel:
                 new_theta = (config[2] + angle_turned) % (2 * np.pi)
                 new_configs.append(np.array([new_xy[0], new_xy[1], new_theta]))
 
-                # Calculate path length.
-                paths_length.append(np.abs(turning_radius * angle_turned))
-
                 # Generate path.
                 path_start_theta = p.angle_diff(vec_CoR_car, x_axis)
                 path_end_theta = p.angle_diff(vec_CoR_new_car, x_axis)
                 circle_type = dc.CircleType.COUNTER_CLOCKWISE if turn_dir >= 0 else dc.CircleType.CLOCKWISE
-                paths.append(p.CircularPath(CoR, path_start_theta, path_end_theta, circle_type, turning_radius))
+                paths.append([p.CircularPath(CoR, path_start_theta, path_end_theta, circle_type, turning_radius)])
             else:
                 vec_car_front = np.array([np.cos(config[2]), np.sin(config[2])])
                 new_xy = config[0:2] + self.distance_increment * vec_car_front
                 new_configs.append(np.array([new_xy[0], new_xy[1], config[2]]))
 
-                paths.append(p.StraightPath(config[0:2], new_xy))
+                paths.append([p.StraightPath(config[0:2], new_xy)])
 
-                paths_length.append(self.distance_increment)
+            paths_length.append(self.distance_increment)
 
         return new_configs, paths, paths_length
+
+
+    def get_min_turning_radius(self):
+        return np.abs(self.car_axel_length / np.tan(self.wheel_max_angle))

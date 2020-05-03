@@ -1,7 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import src.Utils.plot as uplt
-import random
 import src.Planning.HybridAStar.FowardNonHolonomicMotionModel as model
 
 point_interval = 0.1
@@ -29,5 +28,5 @@ if __name__=="__main__":
     start_config = [5.0, 5.0, 0]
     configs, paths, paths_length = motion_model.generate_neighbors(start_config)
     configs.append(start_config)
-    show(configs, paths, 0, 15, -10, 15)
+    show(configs, paths, 0, 25, -10, 15)
 

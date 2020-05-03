@@ -6,20 +6,21 @@ class ObstacleMap:
     occupancy_list: List of occupied locations, in [x, y].
     cell_size: Cell size of what each item in the occupancy list represents.
     car_geometry: Rectangular geometry of the car, parameterized by length and width. Dict {length: ..., width: ..., axel_length: }.
-    path_resolution: When performing collision detection of a path, the resolution of the path that will be subdivided
+    path_collsion_interval: When performing collision detection of a path, the resolution of the path that will be subdivided
         into.
     """
-    def __init__(self, occupancy_list, cell_size, car_geometry, path_resolution):
+    def __init__(self, occupancy_list, cell_size, car_geometry, path_collsion_interval):
         self.occupancy_list = occupancy_list
         self.cell_size = float(cell_size)
         self.car_geometry = car_geometry
-        self.path_resolution = float(path_resolution)
+        self.path_collsion_interval = float(path_collsion_interval)
 
-    def path_is_free(self, path):
-        configs = path.generate_configs(self.path_resolution)
-        for config in configs:
-            if self.is_occupied(config):
-                return False
+    def paths_are_free(self, paths):
+        for path in paths:
+            configs = path.generate_configs(self.path_collsion_interval)
+            for config in configs:
+                if self.is_occupied(config):
+                    return False
         return True
 
     def is_occupied(self, config):

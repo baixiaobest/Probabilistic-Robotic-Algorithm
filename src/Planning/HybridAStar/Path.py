@@ -65,16 +65,24 @@ class StraightPath:
         return np.linalg.norm(self.end_position - self.start_position)
 
     def generate_points(self, point_interval):
+        configs = self.generate_configs(point_interval)
+        return [config[0:2] for config in configs]
+
+    def generate_configs(self, point_interval):
         vec_start_end = self.end_position - self.start_position
         distance = np.linalg.norm(vec_start_end)
         vec_start_end_normalized = vec_start_end / distance
         num_points = int(distance / point_interval) + 1
-        points = []
+        theta = angle_diff(vec_start_end_normalized, np.array([1.0, 0]))
+
+        configs = []
 
         for i in range(num_points):
-            points.append(self.start_position + i * point_interval * vec_start_end_normalized)
+            new_point = self.start_position + i * point_interval * vec_start_end_normalized
+            config = np.array([new_point[0], new_point[1], theta])
+            configs.append(config)
 
-        return points
+        return configs
 
 """ Angle difference between two vector. Return signed angle difference. """
 def angle_diff(a, b):
