@@ -1,4 +1,6 @@
 import numpy as np
+import kdtree as kd
+import src.Planning.HybridAStar.ObstacleNode as obsnode
 
 """ Resposible for testing collision. """
 class ObstacleMap:
@@ -8,12 +10,17 @@ class ObstacleMap:
     car_geometry: Rectangular geometry of the car, parameterized by length and width. Dict {length: ..., width: ..., axel_length: }.
     path_collsion_interval: When performing collision detection of a path, the resolution of the path that will be subdivided
         into.
+    k_closest: K nearest obstacles when checking collision.
     """
-    def __init__(self, occupancy_list, cell_size, car_geometry, path_collsion_interval):
+    def __init__(self, occupancy_list, cell_size, car_geometry, path_collsion_interval, k_closest=10):
         self.occupancy_list = occupancy_list
         self.cell_size = float(cell_size)
         self.car_geometry = car_geometry
         self.path_collsion_interval = float(path_collsion_interval)
+
+        obstacles = [obsnode.ObstacleNode(config) for config in occupancy_list]
+        self.kd_tree = kd.create(point_list=obstacles, dimensions=2)
+        self.k_closest = k_closest
 
     def paths_are_free(self, paths):
         for path in paths:
@@ -32,7 +39,15 @@ class ObstacleMap:
         theta = config[2]
         occupied = False
 
-        for obs in self.occupancy_list:
+        results = self.kd_tree.search_knn(config[0:2], self.k_closest, ObstacleMap._kd_tree_distance)
+
+        for kdnode, distance in results:
+            # Obstacle is too far.
+            if distance > self.car_geometry['length']:
+                continue
+
+            obs = kdnode.data.get_config()
+
             # Rotation and position of the car
             R_car = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
             P_car = np.array([x, y])
@@ -59,4 +74,7 @@ class ObstacleMap:
 
         return occupied
 
-
+    @staticmethod
+    def _kd_tree_distance(node, end_point):
+        start_point = node.get_config()
+        return np.linalg.norm(np.array(start_point) - np.array(end_point))

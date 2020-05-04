@@ -7,7 +7,7 @@ point_interval = 0.1
 
 def show(configs, paths, x_low, x_high, y_low, y_high):
     for path in paths:
-        points = path.generate_points(point_interval)
+        points = path[0].generate_points(point_interval)
         x = [p[0] for p in points]
         y = [p[1] for p in points]
         plt.plot(x, y)

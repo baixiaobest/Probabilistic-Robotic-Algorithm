@@ -11,8 +11,10 @@ class HybridAStar:
     resolution: Resolution of the grid, {x_res, y_res, theta_res}.
     limits: Limits/bounds of the grid, {x_min, x_max, y_min, y_max}
     max_num_nodes: Maximum number of search nodes that will be explored before termination.
-    dubin_threshold: When the heuristics cost is less than this threshold, a dubin path search will be executed to find
-        the shortest path.
+    bucket_interval: Nodes with different distance to the goal has different probability of performing dubin curve
+        shortcut to the goal. This is implemented by putting nodes with different distance into buckets. The granularity
+        of the bucket is bucket_interval. Nodes with distance difference within this interval
+        generally fall into the same bucket.
     """
     def __init__(self,
                  occupany_check,
@@ -21,7 +23,6 @@ class HybridAStar:
                  resolutions,
                  limits,
                  max_num_nodes=1000,
-                 dubin_threshold=10.0,
                  bucket_interval=2.0):
         self.occupany_check = occupany_check
         self.heuristics = heuristics
@@ -29,7 +30,6 @@ class HybridAStar:
         self.resolutions = resolutions
         self.limits = limits
         self.max_num_nodes = int(max_num_nodes)
-        self.dubin_threshold = float(dubin_threshold)
         self.paths = []
         self.bucket_interval = float(bucket_interval)
         self.buckets = []
@@ -153,7 +153,7 @@ class HybridAStar:
         # increment bucket value or wrap around.
         self.buckets[bucket_idx] = (bucket_value + 1) % bucket_max
 
-        return distance_to_goal < self.dubin_threshold or bucket_value == 0
+        return bucket_value == 0
 
     """ Given two config, return true if they are in the same cell. """
     def _is_in_same_cell(self, config_1, config_2):

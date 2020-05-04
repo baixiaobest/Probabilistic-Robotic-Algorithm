@@ -5,6 +5,7 @@ import src.Planning.HybridAStar.FowardNonHolonomicMotionModel as model
 import src.Planning.HybridAStar.ObstacleMap as obmap
 import src.Planning.HybridAStar.Heuristics as h
 import src.Planning.HybridAStar.HybridAStar as hastar
+import cProfile, pstats
 
 grid_resolution = 0.5
 
@@ -32,6 +33,7 @@ def get_obstacle_map():
     car_geometry = {'length': 2.0, 'width': 1.0, 'axel_length': 1.0}
     path_collsion_interval = 2.0
     cell_size = grid_resolution
+    k_closest = int((car_geometry['length'] / cell_size) ** 2)
 
     obstacles = []
     map = uplt.readBMPAsNumpyArray("../map/small_obstacle_map.bmp")
@@ -43,11 +45,11 @@ def get_obstacle_map():
                 obstacles.append(np.array([x, y]))
 
     # obstacles = [np.array([5.0, 4.0]), np.array([6.0, 4.0]), np.array([7.0, 4.0])]
-
-    return obmap.ObstacleMap(obstacles, cell_size, car_geometry, path_collsion_interval), map
+    return obmap.ObstacleMap(obstacles, cell_size, car_geometry, path_collsion_interval, k_closest=k_closest), map
 
 if __name__=="__main__":
-    start_config = np.array([25.0, 40.0, 0.0])
+    pr = cProfile.Profile()
+    start_config = np.array([0.0, 0.0, 0.0])
     end_config = np.array([33.0, 8.0, -np.pi/2])
 
     motion_model = get_motion_model()
@@ -57,10 +59,15 @@ if __name__=="__main__":
     resolutions = {'x_res': 2.0, 'y_res':2.0, 'theta_res': np.pi/2}
     limits = {'x_min': 0, 'x_max': 20.0, 'y_min': 0, 'y_max': 30.0}
     planner = hastar.HybridAStar(obstacle_map, heuristics, motion_model, resolutions, limits,
-                                 max_num_nodes=12000, dubin_threshold=0, bucket_interval=4.0)
+                                 max_num_nodes=20000, bucket_interval=5.0)
+    pr.enable()
     planner.compute(start_config, end_config)
+    pr.disable()
     path = planner.get_path()
     all_path = planner.get_all_explored_path()
+
+    ps = pstats.Stats(pr).sort_stats('cumulative')
+    ps.print_stats()
 
     uplt.plotOccupancyGrid(map, grid_resolution)
     show([start_config, end_config], all_path, -30, 50, -30, 50)
