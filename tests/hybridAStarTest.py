@@ -19,7 +19,7 @@ def show(configs, paths, x_low, x_high, y_low, y_high, point_interval=0.2):
     uplt.plotRobotPoses(configs)
 
 def get_motion_model():
-    wheel_max_angle = 30.0 * np.pi / 180.0
+    wheel_max_angle = 20.0 * np.pi / 180.0
     num_angle_controls = 5
     car_axel_length = 1.0
     distance_increment = 2
@@ -33,7 +33,6 @@ def get_obstacle_map():
     car_geometry = {'length': 2.0, 'width': 1.0, 'axel_length': 1.0}
     path_collsion_interval = 2.0
     cell_size = grid_resolution
-    k_closest = int((car_geometry['length'] / cell_size) ** 2)
 
     obstacles = []
     map = uplt.readBMPAsNumpyArray("../map/small_obstacle_map.bmp")
@@ -44,22 +43,32 @@ def get_obstacle_map():
                 y = cell_size * row
                 obstacles.append(np.array([x, y]))
 
-    # obstacles = [np.array([5.0, 4.0]), np.array([6.0, 4.0]), np.array([7.0, 4.0])]
-    return obmap.ObstacleMap(obstacles, cell_size, car_geometry, path_collsion_interval, k_closest=k_closest), map
+    return obmap.ObstacleMap(obstacles, cell_size, car_geometry, path_collsion_interval), map
+
+def get_heuristics():
+    heuristics = h.DubinHeuristics(motion_model.get_min_turning_radius())
+    h_resolution = {'x_res': 1.0, 'y_res': 1.0, 'theta_res': np.pi / 4.0}
+    h_limits = {'x_min': -50.0, 'x_max': 50.0, 'y_min': -50.0, 'y_max': 50.0}
+    # heuristics.precompute_heuristics(h_resolution, h_limits, "../cache/heuristics")
+    heuristics.load_cached_heuristics("../cache/heuristics")
+    return heuristics
 
 if __name__=="__main__":
     pr = cProfile.Profile()
     start_config = np.array([0.0, 0.0, 0.0])
-    end_config = np.array([33.0, 8.0, -np.pi/2])
+    end_config = np.array([36.0, 37.0, -np.pi/2])
 
     motion_model = get_motion_model()
     obstacle_map, map = get_obstacle_map()
-    heuristics = h.DubinHeuristics(motion_model.get_min_turning_radius())
 
-    resolutions = {'x_res': 2.0, 'y_res':2.0, 'theta_res': np.pi/2}
+    heuristics = get_heuristics()
+
+    resolutions = {'x_res': 2.0, 'y_res': 2.0, 'theta_res': np.pi / 2}
     limits = {'x_min': 0, 'x_max': 20.0, 'y_min': 0, 'y_max': 30.0}
     planner = hastar.HybridAStar(obstacle_map, heuristics, motion_model, resolutions, limits,
                                  max_num_nodes=20000, bucket_interval=5.0)
+
+    print("start")
     pr.enable()
     planner.compute(start_config, end_config)
     pr.disable()

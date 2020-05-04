@@ -13,6 +13,7 @@ class DubinsCurve:
         self.end = np.array(end).astype(float)
         self.turning_radius = turning_radius
         self.path = None
+        self.DISTANCE_TOLERANCE = 0.00001
 
     """ Compute the shortest CSC or CCC path, return path and length. """
     def compute(self):
@@ -66,7 +67,7 @@ class DubinsCurve:
             return path_2, length_2
 
 
-    """ Find path between two Dubin circle, path consists for three arcs, second arc has angle larger than pi. """
+    """ Find path between two Dubin circle, path consists of three arcs, second arc has angle larger than pi. """
     def _calculate_two_circles_CCC_path(self, start_circle, end_circle):
         path = []
         # Tangent circle can only be found if both circles are of the same type.
@@ -76,6 +77,9 @@ class DubinsCurve:
 
         vec_start_end = end_circle.position - start_circle.position
         distance = np.linalg.norm(vec_start_end)
+        # Distance too small.
+        if distance < self.DISTANCE_TOLERANCE:
+            return []
         vec_normalized = vec_start_end / distance
 
         # A tangent circle between start and end circle could not be found
@@ -183,7 +187,12 @@ class DubinsCurve:
     def _calculate_two_circles_CSC_path(self, start_circle, end_circle):
         vec_start_end = end_circle.position - start_circle.position
         distance = np.linalg.norm(vec_start_end)
-        vec_normalized = vec_start_end / distance
+        vec_normalized = None
+        if distance < self.DISTANCE_TOLERANCE:
+            vec_normalized = np.array([1.0, 0])
+            distance = self.DISTANCE_TOLERANCE
+        else:
+            vec_normalized = vec_start_end / distance
 
         # When two circles are of different type and they are overlapping, no solution can be found.
         if distance < 2 * self.turning_radius and not start_circle.circle_type == end_circle.circle_type:
