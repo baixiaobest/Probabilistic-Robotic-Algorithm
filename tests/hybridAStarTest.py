@@ -56,7 +56,7 @@ def get_heuristics():
 if __name__=="__main__":
     pr = cProfile.Profile()
     start_config = np.array([0.0, 0.0, 0.0])
-    end_config = np.array([36.0, 37.0, -np.pi/2])
+    end_config = np.array([48.0, 22.0, -np.pi/2])
 
     motion_model = get_motion_model()
     obstacle_map, map = get_obstacle_map()

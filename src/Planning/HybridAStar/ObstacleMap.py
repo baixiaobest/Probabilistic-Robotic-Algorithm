@@ -25,6 +25,8 @@ class ObstacleMap:
         self.accerated = accelerated
 
     def paths_are_free(self, paths):
+        if len(paths) == 0:
+            return False
         for path in paths:
             configs = path.generate_configs(self.path_collsion_interval)
             for config in configs:

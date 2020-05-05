@@ -40,16 +40,16 @@ class HybridAStar:
         self.nodes = []  # All the nodes generated. {config: , prev_node_id: , path: }
         first_node = {'config': start_config, 'prev_node_id': 0, 'path': None}
 
-        # priority queue, list of to be explored nodes. Queue element: [heuristics cost + past cost, node id]
+        # priority queue, list of to be explored nodes. Queue element: [heuristics cost + past cost, past_cost, node id]
         open = []
-        pq.heappush(open, [self.heuristics.heuristics(start_config, end_config), 0])
+        pq.heappush(open, [self.heuristics.heuristics(start_config, end_config), 0.0, 0])
         self.nodes.append(first_node)
 
         self.buckets = []
 
         path_found = False
         while len(open) > 0 and len(self.nodes) <= self.max_num_nodes:
-            [curr_est_cost, curr_node_id] = pq.heappop(open)
+            [curr_est_cost, curr_past_cost, curr_node_id] = pq.heappop(open)
             curr_node_config = self.nodes[curr_node_id]['config']
 
             cell_location = self._get_cell_location(curr_node_config)
@@ -62,7 +62,7 @@ class HybridAStar:
                 dubin_paths, length = self._connect_using_dubin(curr_node_config, end_config)
                 # A free path is found from current node to goal node.
                 if self.occupany_check.paths_are_free(dubin_paths):
-                    new_node = {'config': end_config, 'prev_node_id': curr_node_id, 'path':dubin_paths}
+                    new_node = {'config': end_config, 'prev_node_id': curr_node_id, 'path': dubin_paths}
                     self.nodes.append(new_node)
                     path_found = True
                     break
@@ -86,9 +86,9 @@ class HybridAStar:
                 new_node_id = len(self.nodes)
                 self.nodes.append(new_node)
                 # Calculate cost and push to queue
-                past_cost = curr_est_cost + costs[idx]
+                past_cost = curr_past_cost + costs[idx]
                 heuristics_cost = self.heuristics.heuristics(neighbor_config, end_config)
-                pq.heappush(open, [past_cost + heuristics_cost, new_node_id])
+                pq.heappush(open, [past_cost + heuristics_cost, past_cost, new_node_id])
 
         if not path_found:
             return False
