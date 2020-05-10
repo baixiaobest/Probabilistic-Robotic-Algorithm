@@ -98,6 +98,7 @@ class HybridAStar:
         node_id = len(self.nodes) - 1
         while not node_id == 0:
             node = self.nodes[node_id]
+            node['path'].reverse()
             self.paths += node['path']
             node_id = node['prev_node_id']
         self.paths.reverse()
@@ -113,6 +114,7 @@ class HybridAStar:
         points = []
         for p in self.paths:
             points = points + p.generate_points(point_interval)
+        return self._remove_duplicate_path_points(points)
 
     """ Get all the paths that is explored. """
     def get_all_explored_path(self):
@@ -129,6 +131,17 @@ class HybridAStar:
         for p in all_path:
             points = points + p.generate_points(point_interval)
         return points
+
+    def _remove_duplicate_path_points(self, points):
+        i = 0
+        while i < len(points) - 1:
+            if np.array_equal(points[i], points[i+1]):
+                del points[i:i+1]
+            else:
+                i = i + 1
+        return points
+
+
 
     """ Connect two configuration using dubing curve. """
     def _connect_using_dubin(self, start, end):

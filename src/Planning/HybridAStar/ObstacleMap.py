@@ -1,6 +1,7 @@
 import numpy as np
 import kdtree as kd
 import src.Planning.HybridAStar.ObstacleNode as obsnode
+import math
 
 """ Resposible for testing collision. """
 class ObstacleMap:
@@ -84,6 +85,16 @@ class ObstacleMap:
                     break
 
         return occupied
+
+    """
+    pos: Position of the point, [x, y]
+    """
+    def distance_to_nearest_obstacle(self, pos):
+        results = self.kd_tree.search_knn(pos, 1, ObstacleMap._kd_tree_distance)
+        if len(results) == 0:
+            return math.inf
+        kdnode, distance = results[0]
+        return distance
 
     @staticmethod
     def _kd_tree_distance(node, end_point):

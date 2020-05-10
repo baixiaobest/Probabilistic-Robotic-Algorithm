@@ -33,7 +33,7 @@ class CircularPath:
             point = self.position \
                     + np.array([[np.cos(theta), -np.sin(theta)],
                                 [np.sin(theta), np.cos(theta)]]) @ x_axis * self.radius
-            config = [point[0], point[1], theta]
+            config = np.array([point[0], point[1], theta])
             configs.append(config)
         return configs
 
