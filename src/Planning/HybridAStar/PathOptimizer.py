@@ -45,8 +45,7 @@ class PathOptimizer:
 
     def _objective_function(self, serialized_points):
         points = self._deserialize_points(serialized_points)
-        # cost = self._obstacle_potential(points) + self._curvature_smoothness_penalty(points)
-        cost = self._curvature_smoothness_penalty(points)
+        cost = self._obstacle_potential(points) + self._curvature_smoothness_penalty(points)
         return cost
 
     def _obstacle_potential(self, points):
