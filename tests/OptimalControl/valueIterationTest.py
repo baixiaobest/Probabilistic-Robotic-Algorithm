@@ -12,12 +12,11 @@ import pickle
 cruise_speed=20.0
 delta_t = 0.3
 
-def get_cost_function(target_x, target_y, control_weight, velocity_weight):
+def get_cost_function(target_x, target_y, x_weight, y_weight, control_weight):
     def cost_function(state, control):
         x_dist_to_target = target_x - state[0]
         y_dist_to_target = target_y - state[1]
-        velocity_to_target = cruise_speed * np.sin(state[2])
-        return y_dist_to_target ** 2 + x_dist_to_target**2 + control_weight * control ** 2
+        return x_weight * x_dist_to_target**2 + y_weight * y_dist_to_target ** 2 + control_weight * control ** 2
     return cost_function
 
 
@@ -31,7 +30,7 @@ def get_dynamics():
 def compute_cost_to_go_and_save(save_location, configs, num_iteration):
     cost_to_go = ctg.CostToGo(configs)
     dynamics = get_dynamics()
-    cost_function = get_cost_function(target_x=0, target_y=0, control_weight=0, velocity_weight=0)
+    cost_function = get_cost_function(target_x=0, target_y=0, x_weight=0, y_weight=1, control_weight=0)
 
     value_iteration = vi.ValueIteration(dynamics, cost_to_go, get_control_set(), cost_function, delta_t)
     value_iteration.value_iteration(num_iteration)
@@ -47,9 +46,11 @@ def load_cost_to_go_and_display(location, configs):
     policy = pickle.load(open(location+'policy', 'rb'))
     policy_table = policy.get_state_space_cost_table()
 
-    start_state = np.array([10, 10, 1.57])
-    path = apply_control_policy(policy, start_state, delta_t, 50)
+    start_state = np.array([-30, 20, 0])
+    path = apply_control_policy(policy, start_state, delta_t, 15)
     uplt.plotRobotPoses(path)
+    plt.ylim((configs[1]['min'], configs[1]['max']))
+    plt.xlim((configs[0]['min'], configs[0]['max']))
     plt.show()
 
     for i in range(cost_to_go_table.shape[2]):

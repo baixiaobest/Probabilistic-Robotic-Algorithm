@@ -23,16 +23,11 @@ class ValueIteration:
     def value_iteration(self, num_iteration):
         dimension = self.cost_to_go.get_state_dimension()
         configs = self.cost_to_go.get_state_space_configuration()
-        minimum_state = np.zeros(dimension)
-        # state is initialized to be the minimum of all states in cost to go
-        # (in terms of generalized inequality in positive orthant).
-        for dim in range(dimension):
-            minimum_state[dim] = configs[dim]["min"]
 
         for iteration in range(num_iteration):
             new_cost_to_go = cp.deepcopy(self.cost_to_go)
             # Recursively update all the cells in the cost to go table.
-            self._recursive_cost_iteration(minimum_state, 0, self._get_value_update_func(new_cost_to_go))
+            self._recursive_cost_iteration(np.zeros(dimension).astype(int), 0, self._get_value_update_func(new_cost_to_go))
             self.cost_to_go = new_cost_to_go
 
         # Generate control policy based on calculated cost.
@@ -40,8 +35,7 @@ class ValueIteration:
 
     def compute_control_policy(self):
         dimension = self.cost_to_go.get_state_dimension()
-        minimum_state = np.zeros(dimension)
-        self._recursive_cost_iteration(minimum_state, 0, self._generate_control_policy)
+        self._recursive_cost_iteration(np.zeros(dimension).astype(int), 0, self._generate_control_policy)
 
     def get_cost_to_go(self):
         return self.cost_to_go
@@ -53,23 +47,23 @@ class ValueIteration:
     Iterate through all the states in cost_to_go and update the cost value.
     This is recursive operation because the dimension of the state is configurable.
     """
-    def _recursive_cost_iteration(self, state, dim, update_function):
+    def _recursive_cost_iteration(self, indices, dim, update_function):
         # Base case, we reach last dimension.
-        if dim == len(state):
-            update_function(state)
+        if dim == len(indices):
+            update_function(indices)
             return
 
         configs = self.cost_to_go.get_state_space_configuration()
         N = self.cost_to_go.get_number_discrete_state_values(dim)
-        new_state = np.array(state, copy=True)
+        new_indices = np.array(indices, copy=True)
 
         # Iteratively go through all the states in dim'th dimension.
         for i in range(N):
-            val = configs[dim]["min"] + configs[dim]["resolution"] * i + 0.0001 # remove floating point error
-            new_state[dim] = val
-            self._recursive_cost_iteration(new_state, dim + 1, update_function)
+            new_indices[dim] = i
+            self._recursive_cost_iteration(new_indices, dim + 1, update_function)
 
-    def _generate_control_policy(self, state):
+    def _generate_control_policy(self, indices):
+        state = self.cost_to_go.get_state_from_indices(indices)
         min_cost = np.Inf
         best_control = 0
         # Find the control action that minimizes the cost
@@ -86,12 +80,13 @@ class ValueIteration:
                 min_cost = total_cost
                 best_control = control
 
-        self.control_policy.set_cost(state, best_control)
+        self.control_policy.set_cost_by_indices(indices, best_control)
 
     def _get_value_update_func(self, new_cost_to_go):
         """ Perform value/cost update on state. """
-        def _value_update(state):
+        def _value_update(indices):
             min_cost = np.Inf
+            state = new_cost_to_go.get_state_from_indices(indices)
             # Find the control action that minimizes the cost
             for u in self.control_set:
                 cost_of_action = self.cost_function(state, u) * self.delta_t
@@ -106,12 +101,12 @@ class ValueIteration:
                     min_cost = total_cost
 
             if not min_cost == np.Inf:
-                new_cost_to_go.set_cost(state, min_cost)
+                new_cost_to_go.set_cost_by_indices(indices, min_cost)
             # This case happens when the dynamics bring the state out of boundary of the cost to go table.
             # We can only approximate the cost.
             else:
                 cost_of_inaction = self.cost_function(state, 0) * self.delta_t
                 new_cost = self.discount_factor * self.cost_to_go.get_cost(state) + cost_of_inaction
-                new_cost_to_go.set_cost(state, new_cost)
+                new_cost_to_go.set_cost_by_indices(indices, new_cost)
 
         return _value_update
