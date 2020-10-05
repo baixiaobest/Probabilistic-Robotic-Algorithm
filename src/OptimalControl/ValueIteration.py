@@ -1,5 +1,6 @@
 import numpy as np
 import copy as cp
+import src.OptimalControl.CostToGo as ctg
 
 class ValueIteration:
     """
@@ -7,30 +8,56 @@ class ValueIteration:
     cost_to_go: Data structure that contains the cost to go of the state space.
     control_set: List of control vectors u that can be applied to the system.
     cost_function: A function that takes state and control vector and returns the cost.
+    delta_t: State is updated by this time step during each iteration.
+    discount_factor: Discount the cost to prevent cost value going to infinity.
     """
-    def __init__(self, dynamics, cost_to_go, control_set, cost_function, delta_t):
+    def __init__(self, dynamics, cost_to_go, control_set, cost_function, delta_t, discount_factor=0.9):
         self.dynamics = dynamics
         self.cost_to_go = cost_to_go
+        self.control_policy = ctg.CostToGo(cost_to_go.get_state_space_configuration())
         self.control_set = control_set
         self.cost_function = cost_function
         self.delta_t = delta_t
+        self.discount_factor = discount_factor
 
     def value_iteration(self, num_iteration):
+        dimension = self.cost_to_go.get_state_dimension()
+        configs = self.cost_to_go.get_state_space_configuration()
+        minimum_state = np.zeros(dimension)
+        # state is initialized to be the minimum of all states in cost to go
+        # (in terms of generalized inequality in positive orthant).
+        for dim in range(dimension):
+            minimum_state[dim] = configs[dim]["min"]
+
         for iteration in range(num_iteration):
-            dimension = self.cost_to_go.get_dimension()
-            configs = self.cost_to_go.get_state_space_configuration()
-            # state is initialized to be the minimum of all states in cost to go
-            # (in terms of generalized inequality in positive orthant).
-            state = np.zeros(dimension)
-            for dim in range(dimension):
-                state[dim] = configs[dim]["min"]
             new_cost_to_go = cp.deepcopy(self.cost_to_go)
-            self._recursive_cost_update(state, 0, new_cost_to_go)
+            # Recursively update all the cells in the cost to go table.
+            self._recursive_cost_iteration(minimum_state, 0, self._get_value_update_func(new_cost_to_go))
             self.cost_to_go = new_cost_to_go
 
-    def _recursive_cost_update(self, state, dim, new_cost_to_go):
+        # Generate control policy based on calculated cost.
+        self.compute_control_policy()
+
+    def compute_control_policy(self):
+        dimension = self.cost_to_go.get_state_dimension()
+        minimum_state = np.zeros(dimension)
+        self._recursive_cost_iteration(minimum_state, 0, self._generate_control_policy)
+
+    def get_cost_to_go(self):
+        return self.cost_to_go
+
+    def get_policy(self):
+        return self.control_policy
+
+    """ 
+    Iterate through all the states in cost_to_go and update the cost value.
+    This is recursive operation because the dimension of the state is configurable.
+    """
+    def _recursive_cost_iteration(self, state, dim, update_function):
+        # Base case, we reach last dimension.
         if dim == len(state):
-            self._value_update(state, new_cost_to_go)
+            update_function(state)
+            return
 
         configs = self.cost_to_go.get_state_space_configuration()
         N = self.cost_to_go.get_number_discrete_state_values(dim)
@@ -38,19 +65,53 @@ class ValueIteration:
 
         # Iteratively go through all the states in dim'th dimension.
         for i in range(N):
-            val = configs[dim]["min"] + configs[dim]["resolution"] * i
+            val = configs[dim]["min"] + configs[dim]["resolution"] * i + 0.0001 # remove floating point error
             new_state[dim] = val
-            self._recursive_cost_update(new_state, dim+1, new_cost_to_go)
+            self._recursive_cost_iteration(new_state, dim + 1, update_function)
 
-    def _value_update(self, state, new_cost_to_go):
+    def _generate_control_policy(self, state):
         min_cost = np.Inf
-        for u in self.control_set:
-            cost_of_action = self.cost_function(state, u)
-            next_state = self.dynamics.update(state, u, self.delta_t)
-            next_state_cost_to_go = self.cost_to_go.get_cost(next_state)
-            total_cost = cost_of_action + next_state_cost_to_go
+        best_control = 0
+        # Find the control action that minimizes the cost
+        for control in self.control_set:
+            cost_of_action = self.cost_function(state, control) * self.delta_t
+            next_state = self.dynamics.update(state, control, self.delta_t)
+            try:
+                next_state_cost_to_go = self.cost_to_go.get_cost(next_state)
+            # Next state is out of bound, cost could not be calculated.
+            except ValueError:
+                next_state_cost_to_go = np.Inf
+            total_cost = cost_of_action + self.discount_factor * next_state_cost_to_go
             if total_cost < min_cost:
                 min_cost = total_cost
+                best_control = control
 
-        if not min_cost == np.Inf:
-            new_cost_to_go.set_cost(state, min_cost)
+        self.control_policy.set_cost(state, best_control)
+
+    def _get_value_update_func(self, new_cost_to_go):
+        """ Perform value/cost update on state. """
+        def _value_update(state):
+            min_cost = np.Inf
+            # Find the control action that minimizes the cost
+            for u in self.control_set:
+                cost_of_action = self.cost_function(state, u) * self.delta_t
+                next_state = self.dynamics.update(state, u, self.delta_t)
+                try:
+                    next_state_cost_to_go = self.cost_to_go.get_cost(next_state)
+                # Next state is out of bound, cost could not be calculated.
+                except ValueError:
+                    next_state_cost_to_go = np.Inf
+                total_cost = cost_of_action + self.discount_factor * next_state_cost_to_go
+                if total_cost < min_cost:
+                    min_cost = total_cost
+
+            if not min_cost == np.Inf:
+                new_cost_to_go.set_cost(state, min_cost)
+            # This case happens when the dynamics bring the state out of boundary of the cost to go table.
+            # We can only approximate the cost.
+            else:
+                cost_of_inaction = self.cost_function(state, 0) * self.delta_t
+                new_cost = self.discount_factor * self.cost_to_go.get_cost(state) + cost_of_inaction
+                new_cost_to_go.set_cost(state, new_cost)
+
+        return _value_update

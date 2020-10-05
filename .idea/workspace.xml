@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="0051667b-5963-4b58-95ba-14c3692b88a0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -14,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Python Unit Test" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -44,28 +47,7 @@
       <recent name="$PROJECT_DIR$/src/Localization" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests in costToGoTest.py">
-    <configuration name="localPlannerTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Probabilitic Robotic Algorithm" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/localPlannerTest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.valueIterationTest">
     <configuration name="probabilisticRoadMapTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -87,7 +69,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="rangeFinderBeamModelTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="valueIterationTest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -95,17 +77,31 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/OptimalControl" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/rangeFinderBeamModelTest.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/OptimalControl/valueIterationTest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for aircraftDynamicsTest.AircraftDynamicsTest.test_arc" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Probabilitic Robotic Algorithm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/OptimalControl" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;aircraftDynamicsTest.AircraftDynamicsTest.test_arc&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Unittests in aircraftDynamicsTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
@@ -138,11 +134,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests in costToGoTest.py" />
+        <item itemvalue="Python.valueIterationTest" />
         <item itemvalue="Python tests.Unittests in aircraftDynamicsTest.py" />
+        <item itemvalue="Python tests.Unittests for aircraftDynamicsTest.AircraftDynamicsTest.test_arc" />
+        <item itemvalue="Python tests.Unittests in costToGoTest.py" />
         <item itemvalue="Python.probabilisticRoadMapTest" />
-        <item itemvalue="Python.localPlannerTest" />
-        <item itemvalue="Python.rangeFinderBeamModelTest" />
       </list>
     </recent_temporary>
   </component>
@@ -182,46 +178,62 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1066" y="453" key="#xdebugger.evaluate" timestamp="1601769117541">
+    <state x="716" y="321" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601833628614">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1066" y="453" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1601769117541" />
-    <state width="701" height="466" key="DebuggerActiveHint" timestamp="1601767950211">
+    <state x="716" y="321" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1601833628614" />
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601833675070">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="701" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1601767950211" />
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1601786419033">
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601833675070" />
+    <state x="764" y="571" width="673" height="416" key="#xdebugger.evaluate" timestamp="1601866658998">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1601786419033" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1601786419033">
+    <state x="764" y="571" width="673" height="416" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1601866658998" />
+    <state width="1528" height="466" key="DebuggerActiveHint" timestamp="1601849570530">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1601786419033" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1601786419033">
+    <state width="1528" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1601849570530" />
+    <state width="1899" height="235" key="GridCell.Tab.0.bottom" timestamp="1601867268348">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1601786419033" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1601786419033">
+    <state width="1899" height="235" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1601867268348" />
+    <state width="1899" height="235" key="GridCell.Tab.0.center" timestamp="1601867268348">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1601786419033" />
-    <state width="1899" height="222" key="GridCell.Tab.1.bottom" timestamp="1601769130335">
+    <state width="1899" height="235" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1601867268348" />
+    <state width="1899" height="235" key="GridCell.Tab.0.left" timestamp="1601867268348">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="222" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1601769130335" />
-    <state width="1899" height="222" key="GridCell.Tab.1.center" timestamp="1601769130335">
+    <state width="1899" height="235" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1601867268348" />
+    <state width="1899" height="235" key="GridCell.Tab.0.right" timestamp="1601867268348">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="222" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1601769130335" />
-    <state width="1899" height="222" key="GridCell.Tab.1.left" timestamp="1601769130335">
+    <state width="1899" height="235" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1601867268348" />
+    <state width="1899" height="278" key="GridCell.Tab.1.bottom" timestamp="1601866662013">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="222" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1601769130335" />
-    <state width="1899" height="222" key="GridCell.Tab.1.right" timestamp="1601769130335">
+    <state width="1899" height="278" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1601866662013" />
+    <state width="1899" height="278" key="GridCell.Tab.1.center" timestamp="1601866661998">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="222" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1601769130335" />
+    <state width="1899" height="278" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1601866661998" />
+    <state width="1899" height="278" key="GridCell.Tab.1.left" timestamp="1601866661998">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="278" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1601866661998" />
+    <state width="1899" height="278" key="GridCell.Tab.1.right" timestamp="1601866662013">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="278" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1601866662013" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1601837201160">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.0.1920.1040@0.0.1920.1040" timestamp="1601837201160" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1601833097732">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1601833097732" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
