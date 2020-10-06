@@ -21,7 +21,7 @@ class CostToGo:
             state_config = self.configs[i]
             if state[i] > state_config["max"] + state_config['resolution'] or state[i] < state_config["min"]:
                 raise ValueError("input state not valid, not in the defined state_space")
-            state_idx = int((state[i] - state_config["min"]) / state_config["resolution"])
+            state_idx = int((state[i] - state_config["min"]) / state_config["resolution"] + 0.0001)
             # This is equivalent to iteratively indexing: val[][]...[]
             val = val[state_idx]
         return val
@@ -33,7 +33,7 @@ class CostToGo:
             state_config = self.configs[i]
             if state[i] > state_config["max"] + state_config['resolution'] or state[i] < state_config["min"]:
                 raise ValueError("input state not valid, not in the defined state_space")
-            state_idx = int((state[i] - state_config["min"]) / state_config["resolution"])
+            state_idx = int((state[i] - state_config["min"]) / state_config["resolution"] + 0.0001)
             # This is equivalent to iteratively indexing: val[][]...[] = cost
             if i == len(state) - 1:
                 val[state_idx] = cost

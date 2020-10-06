@@ -1,6 +1,7 @@
 import src.OptimalControl.CostToGo as ctg
 import src.OptimalControl.AircraftDynamics as ad
 import src.OptimalControl.ValueIteration as vi
+from src.OptimalControl.CostFunctions import *
 import src.Utils.plot as uplt
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,15 +11,8 @@ import pickle
 
 
 cruise_speed=20.0
-delta_t = 0.3
-
-def get_cost_function(target_x, target_y, x_weight, y_weight, control_weight):
-    def cost_function(state, control):
-        x_dist_to_target = target_x - state[0]
-        y_dist_to_target = target_y - state[1]
-        return x_weight * x_dist_to_target**2 + y_weight * y_dist_to_target ** 2 + control_weight * control ** 2
-    return cost_function
-
+computation_delta_t = 1.0
+simulation_delta_t = 0.3
 
 def save_cost_to_file(table, file_name):
     file = open(file_name, 'wb')
@@ -30,9 +24,10 @@ def get_dynamics():
 def compute_cost_to_go_and_save(save_location, configs, num_iteration):
     cost_to_go = ctg.CostToGo(configs)
     dynamics = get_dynamics()
-    cost_function = get_cost_function(target_x=0, target_y=0, x_weight=0, y_weight=1, control_weight=0)
+    # cost_function = get_point_cost_function(target_x=0, target_y=0, x_weight=0, y_weight=1, control_weight=0)
+    cost_function = get_circle_cost_function(circle_center=[5, 5], radius=30, control_weight=0)
 
-    value_iteration = vi.ValueIteration(dynamics, cost_to_go, get_control_set(), cost_function, delta_t)
+    value_iteration = vi.ValueIteration(dynamics, cost_to_go, get_control_set(), cost_function, computation_delta_t)
     value_iteration.value_iteration(num_iteration)
 
     save_cost_to_file(value_iteration.get_cost_to_go(), save_location+'cost_to_go')
@@ -46,8 +41,15 @@ def load_cost_to_go_and_display(location, configs):
     policy = pickle.load(open(location+'policy', 'rb'))
     policy_table = policy.get_state_space_cost_table()
 
-    start_state = np.array([-30, 20, 0])
-    path = apply_control_policy(policy, start_state, delta_t, 15)
+    # value_iteration = vi.ValueIteration(get_dynamics(), cost_to_go, get_control_set(),
+    #                                     get_circle_cost_function(circle_center=[5, 5], radius=30, control_weight=0),
+    #                                     delta_t)
+    # value_iteration.compute_control_policy()
+    # policy = value_iteration.get_policy()
+    # policy_table = policy.get_state_space_cost_table()
+
+    start_state = np.array([50, 0, 1.57])
+    path = apply_control_policy(policy, start_state, simulation_delta_t, 100)
     uplt.plotRobotPoses(path)
     plt.ylim((configs[1]['min'], configs[1]['max']))
     plt.xlim((configs[0]['min'], configs[0]['max']))
@@ -98,8 +100,8 @@ if __name__=="__main__":
     compute = False
 
     save_location = '../../cache/'
-    configs = [{"min": -60, "max": 60, "resolution": 2},
-               {"min": -60, "max": 60, "resolution": 2},
+    configs = [{"min": -60, "max": 60, "resolution": 1},
+               {"min": -60, "max": 60, "resolution": 1},
                {"min": 0, "max": 2 * np.pi, "resolution": np.pi/8.0}]
     num_iteration = 5
 

@@ -25,6 +25,7 @@ class ValueIteration:
         configs = self.cost_to_go.get_state_space_configuration()
 
         for iteration in range(num_iteration):
+            print("Iteration: {0}".format(iteration + 1))
             new_cost_to_go = cp.deepcopy(self.cost_to_go)
             # Recursively update all the cells in the cost to go table.
             self._recursive_cost_iteration(np.zeros(dimension).astype(int), 0, self._get_value_update_func(new_cost_to_go))
