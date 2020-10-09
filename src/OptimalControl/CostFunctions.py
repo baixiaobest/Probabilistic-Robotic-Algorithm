@@ -40,3 +40,22 @@ def get_circle_cost_function(circle_center, radius, direction, direction_weight,
 
         return dist_to_circle ** 2 + cost_direction_error + control_weight * control ** 2
     return cost_function
+
+"""
+"""
+def get_spline_cost_function(cached_spline, direction_weight, direction_tau, control_weight):
+    def cost_function(state, control):
+        theta = state[2]
+
+        # Closest point on the spline.
+        s, dist_to_spline = cached_spline.get_s_distance(state[0:2])
+
+        v_unit = np.array([np.cos(theta), np.sin(theta)])
+        desired_v = cached_spline.get_velocity(s)
+        desired_v = desired_v / norm(desired_v)
+        error_direction = norm(v_unit - desired_v) / 2.0
+        direction_cost = direction_weight * error_direction * np.exp(-direction_tau * dist_to_spline)
+
+        return dist_to_spline ** 2 + direction_cost + control_weight * control ** 2
+    return cost_function
+

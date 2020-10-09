@@ -1,13 +1,11 @@
 import src.OptimalControl.CostToGo as ctg
-import src.OptimalControl.AircraftDynamics as ad
+import src.Models.AircraftDynamics as ad
 import src.OptimalControl.ValueIteration as vi
 from src.OptimalControl.CostFunctions import *
 import src.Utils.plot as uplt
 from src.Utils.OptimalControlTestUtility import *
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import cm
 import pickle
 
 
@@ -43,7 +41,7 @@ def load_cost_to_go_and_display(location, configs):
     policy_table = policy.get_state_space_cost_table()
 
     start_state = np.array([-30, -30, 3.14])
-    path = apply_control_policy(policy, get_dynamics(), start_state, simulation_delta_t, 100)
+    path, _ = apply_control_policy(policy, get_dynamics(), start_state, simulation_delta_t, 100)
     uplt.plotRobotPoses(path)
     plt.ylim((configs[1]['min'], configs[1]['max']))
     plt.xlim((configs[0]['min'], configs[0]['max']))
