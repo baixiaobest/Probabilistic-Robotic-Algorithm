@@ -1,5 +1,5 @@
 import unittest
-import src.OptimalControl.AircraftDynamics as ad
+import src.Models.AircraftDynamics as ad
 import numpy as np
 
 class AircraftDynamicsTest(unittest.TestCase):
