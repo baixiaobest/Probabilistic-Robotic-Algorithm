@@ -1,6 +1,6 @@
 import numpy as np
 import copy as cp
-import src.OptimalControl.CostToGo as ctg
+import src.OptimalControl.DynamicProgramming.CostToGo as ctg
 
 class ValueIteration:
     """
