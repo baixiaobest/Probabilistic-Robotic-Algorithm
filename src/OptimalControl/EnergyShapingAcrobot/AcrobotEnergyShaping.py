@@ -61,7 +61,7 @@ class EnergyShapingControl(LeafSystem):
         self.DeclareInputPort('estimated state', PortDataType.kVectorValued, 4)
         self.DeclareVectorOutputPort('control', BasicVector(1), self.calculate_control)
         self.Q = np.diag((10., 10., 1., 1.))
-        self.R = [1]
+        self.R = [10]
         self.K = self.calculate_lqr()
         self.LQR_on = False
 
@@ -90,7 +90,7 @@ class EnergyShapingControl(LeafSystem):
 
         desired_state = np.array([np.pi, 0, 0, 0])
         cost = (desired_state - input).T @ self.Q @ (desired_state - input)
-        should_use_lqr = cost < 50
+        should_use_lqr = cost < 1
 
         if not self.LQR_on:
             self.LQR_on = should_use_lqr
@@ -134,7 +134,7 @@ if __name__=="__main__":
     builder = DiagramBuilder()
     acrobot = builder.AddSystem(AcrobotPlant())
 
-    saturation = builder.AddSystem(Saturation(min_value=[-10], max_value=[10]))
+    saturation = builder.AddSystem(Saturation(min_value=[-20], max_value=[20]))
     builder.Connect(saturation.get_output_port(0), acrobot.get_input_port(0))
     wrapangles = WrapToSystem(4)
     wrapangles.set_interval(0, 0, 2. * np.pi)
