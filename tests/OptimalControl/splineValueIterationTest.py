@@ -12,7 +12,7 @@ import pickle
 
 
 cruise_speed=20.0
-computation_delta_t = 1.0
+computation_delta_t = 0.5
 simulation_delta_t = 0.3
 
 def save_cost_to_file(table, file_name):
@@ -29,7 +29,7 @@ def get_cost_function():
     spline = get_spline()
     cached_spline = cs.CachedSplineDistance(spline, configs[0:2])
     cached_spline.compute_cache()
-    cost_function = get_spline_cost_function(cached_spline=cached_spline, direction_weight=0, direction_tau=0.05,
+    cost_function = get_spline_cost_function(cached_spline=cached_spline, direction_weight=100, direction_tau=0.05,
                                              control_weight=0)
     return cost_function
 
@@ -74,13 +74,13 @@ def get_control_set():
     return np.linspace(-2 * g, 2 * g, 20)
 
 if __name__=="__main__":
-    compute = True
+    compute = False
 
     save_location = '../../cache/'
-    configs = [{"min": -80, "max": 80, "resolution": 2},
-               {"min": -80, "max": 80, "resolution": 2},
+    configs = [{"min": -80, "max": 80, "resolution": 1},
+               {"min": -80, "max": 80, "resolution": 1},
                {"min": 0, "max": 2 * np.pi, "resolution": np.pi/8.0}]
-    num_iteration = 5
+    num_iteration = 10
 
     if compute:
         compute_cost_to_go_and_save(save_location, configs, num_iteration)
