@@ -1,5 +1,5 @@
 import unittest
-import src.OptimalControl.VectorCubicSpline as cubic
+import src.OptimalControl.DynamicProgramming.VectorCubicSpline as cubic
 import numpy as np
 from numpy.linalg import norm
 

@@ -1,6 +1,6 @@
 import unittest
-import src.OptimalControl.VectorCubicSpline as cs
-import src.OptimalControl.CachedSplineDistance as ccs
+import src.OptimalControl.DynamicProgramming.VectorCubicSpline as cs
+import src.OptimalControl.DynamicProgramming.CachedSplineDistance as ccs
 import numpy as np
 
 

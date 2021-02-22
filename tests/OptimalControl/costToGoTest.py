@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-import src.OptimalControl.CostToGo as ctg
+import src.OptimalControl.DynamicProgramming.CostToGo as ctg
 
 class MyTestCase(unittest.TestCase):
     def test_empty_cost_to_go(self):
