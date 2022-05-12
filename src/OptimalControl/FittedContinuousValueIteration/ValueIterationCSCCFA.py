@@ -19,7 +19,7 @@ class ValueIterationCSCSFA:
         self.cost_to_go = cost_to_go
         self.function_approximator = function_approximator
         self.delta_t = delta_t
-        # Optimal control at sample states
+        # Optimal control at sample states, this is improved over iterations.
         self.optimal_controls = [np.zeros(dynamics.num_controls()) for i in range(len(sample_states))]
         self.control_optimizer_method = 'BFGS'
         self.control_optimizer_options = {'maxiter': 10, 'disp': False}
@@ -55,21 +55,22 @@ class ValueIterationCSCSFA:
             alpha_opt = res.x
             self.function_approximator.set_parameters(alpha_opt)
 
-    '''
-    u: control input to the system.  
-    args: contains state x of the system. args is a tuple (x)
-    '''
     def _control_cost_function(self, u, args):
+        '''
+        u: control input to the system.
+        args: contains state x of the system. args is a tuple (x)
+        '''
         x = args
         l = self.cost_to_go(x, u) * self.delta_t
         x_next = x + self.dynamics.dxdt(x, u) * self.delta_t
         value = self.function_approximator.value_at(x_next)
         return l + value
-    '''
-    alpha: parameters of the function approximator.
-    args: contains desired J (J values at sample points).
-    '''
+
     def _func_approx_cost_function(self, alpha, args):
+        '''
+        alpha: parameters of the function approximator.
+        args: contains desired J (J values at sample points).
+        '''
         J_desired = args
         self.function_approximator.set_parameters(alpha)
         cost = 0

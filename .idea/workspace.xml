@@ -3,11 +3,33 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="0051667b-5963-4b58-95ba-14c3692b88a0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/QuadraticFuncApproximator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/StateSpaceDynamics.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/FunctionApproximatorTest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/ValueIterationCSCCFATest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Planning/ProbabilisticRoadmap.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Planning/ProbabilisticRoadmap.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/probabilisticRoadMapTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/probabilisticRoadMapTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/OptimalControl/ContinuousValueIteration/ValueIterationCSCCFA.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/ValueIterationCSCCFA.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/OptimalControl/ContinuousValueIteration/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +59,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Models" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -48,7 +70,28 @@
       <recent name="$PROJECT_DIR$/src/Models" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.splineValueIterationTest">
+  <component name="RunManager" selected="Python.ValueIterationCSCCFATest">
+    <configuration name="ValueIterationCSCCFATest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Probabilitic Robotic Algorithm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/ContinuousValueIteration" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/ContinuousValueIteration/ValueIterationCSCCFATest.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="splineValueIterationTest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -91,6 +134,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests in FunctionApproximatorTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Probabilitic Robotic Algorithm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/FittedContinuousValueIteration" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/FittedContinuousValueIteration/FunctionApproximatorTest.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Unittests in cachedSplineDistanceTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -105,41 +162,13 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests in costToGoTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="Probabilitic Robotic Algorithm" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/OptimalControl" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/OptimalControl/costToGoTest.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests in vectorCubicSplineTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="Probabilitic Robotic Algorithm" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/OptimalControl" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/OptimalControl/vectorCubicSplineTest.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ValueIterationCSCCFATest" />
+        <item itemvalue="Python tests.Unittests in FunctionApproximatorTest.py" />
         <item itemvalue="Python.splineValueIterationTest" />
         <item itemvalue="Python.valueIterationTest" />
         <item itemvalue="Python tests.Unittests in cachedSplineDistanceTest.py" />
-        <item itemvalue="Python tests.Unittests in vectorCubicSplineTest.py" />
-        <item itemvalue="Python tests.Unittests in costToGoTest.py" />
       </list>
     </recent_temporary>
   </component>
@@ -179,74 +208,54 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="716" y="321" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601833628614">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="981" y="498" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1652204775178">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state x="716" y="321" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1601833628614" />
-    <state x="768" y="379" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1602048627215">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="981" y="498" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1392@0.0.2560.1392" timestamp="1652204775178" />
+    <state width="1243" height="466" key="DebuggerActiveHint" timestamp="1652314225603">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state x="768" y="379" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1602048627215" />
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601833675070">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1243" height="466" key="DebuggerActiveHint/0.0.2560.1392@0.0.2560.1392" timestamp="1652314225603" />
+    <state width="1584" height="312" key="GridCell.Tab.0.bottom" timestamp="1652316500097">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601833675070" />
-    <state x="674" y="624" width="673" height="416" key="#xdebugger.evaluate" timestamp="1602213016154">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1584" height="312" key="GridCell.Tab.0.bottom/0.0.2560.1392@0.0.2560.1392" timestamp="1652316500097" />
+    <state width="1584" height="312" key="GridCell.Tab.0.center" timestamp="1652316500097">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state x="674" y="624" width="673" height="416" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1602213016154" />
-    <state width="1528" height="466" key="DebuggerActiveHint" timestamp="1602208587537">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1584" height="312" key="GridCell.Tab.0.center/0.0.2560.1392@0.0.2560.1392" timestamp="1652316500097" />
+    <state width="1584" height="312" key="GridCell.Tab.0.left" timestamp="1652316500097">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1528" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1602208587537" />
-    <state x="740" y="261" key="FileChooserDialogImpl" timestamp="1602049156233">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1584" height="312" key="GridCell.Tab.0.left/0.0.2560.1392@0.0.2560.1392" timestamp="1652316500097" />
+    <state width="1584" height="312" key="GridCell.Tab.0.right" timestamp="1652316500097">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state x="740" y="261" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1602049156233" />
-    <state width="1449" height="211" key="GridCell.Tab.0.bottom" timestamp="1602355328963">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1584" height="312" key="GridCell.Tab.0.right/0.0.2560.1392@0.0.2560.1392" timestamp="1652316500097" />
+    <state width="1584" height="269" key="GridCell.Tab.1.bottom" timestamp="1652314977355">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1449" height="211" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1602355328963" />
-    <state width="1449" height="211" key="GridCell.Tab.0.center" timestamp="1602355328963">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1584" height="269" key="GridCell.Tab.1.bottom/0.0.2560.1392@0.0.2560.1392" timestamp="1652314977355" />
+    <state width="1584" height="269" key="GridCell.Tab.1.center" timestamp="1652314977355">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1449" height="211" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1602355328963" />
-    <state width="1449" height="211" key="GridCell.Tab.0.left" timestamp="1602355328963">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1584" height="269" key="GridCell.Tab.1.center/0.0.2560.1392@0.0.2560.1392" timestamp="1652314977355" />
+    <state width="1584" height="269" key="GridCell.Tab.1.left" timestamp="1652314977355">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1449" height="211" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1602355328963" />
-    <state width="1449" height="211" key="GridCell.Tab.0.right" timestamp="1602355328963">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1584" height="269" key="GridCell.Tab.1.left/0.0.2560.1392@0.0.2560.1392" timestamp="1652314977355" />
+    <state width="1584" height="269" key="GridCell.Tab.1.right" timestamp="1652314977355">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1449" height="211" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1602355328963" />
-    <state width="1899" height="227" key="GridCell.Tab.1.bottom" timestamp="1602226054893">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1584" height="269" key="GridCell.Tab.1.right/0.0.2560.1392@0.0.2560.1392" timestamp="1652314977355" />
+    <state x="800" y="390" key="SettingsEditor" timestamp="1652118189645">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1899" height="227" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1602226054893" />
-    <state width="1899" height="227" key="GridCell.Tab.1.center" timestamp="1602226054893">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="800" y="390" key="SettingsEditor/0.0.2560.1392@0.0.2560.1392" timestamp="1652118189645" />
+    <state width="810" height="605" key="XDebugger.FullValuePopup" timestamp="1652314164260">
+      <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1899" height="227" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1602226054893" />
-    <state width="1899" height="227" key="GridCell.Tab.1.left" timestamp="1602226054893">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1899" height="227" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1602226054893" />
-    <state width="1899" height="227" key="GridCell.Tab.1.right" timestamp="1602226054893">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1899" height="227" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1602226054893" />
-    <state x="642" y="248" key="SettingsEditor" timestamp="1602556508164">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="642" y="248" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1602556508164" />
-    <state width="498" height="446" key="SwitcherDM" timestamp="1601837201160">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="498" height="446" key="SwitcherDM/0.0.1920.1040@0.0.1920.1040" timestamp="1601837201160" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1602202292502">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1602202292502" />
+    <state width="810" height="605" key="XDebugger.FullValuePopup/0.0.2560.1392@0.0.2560.1392" timestamp="1652314164260" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
