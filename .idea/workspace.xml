@@ -23,13 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0051667b-5963-4b58-95ba-14c3692b88a0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/QuadraticFuncApproximator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/StateSpaceDynamics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/FunctionApproximatorTest.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/ValueIterationCSCCFATest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/common.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/OptimalControl/ContinuousValueIteration/ValueIterationCSCCFA.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/ValueIterationCSCCFA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/OptimalControl/ContinuousValueIteration/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/ValueIterationCSCCFATest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/ValueIterationCSCCFATest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,8 +35,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Python Unit Test" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -63,14 +59,35 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\baixi\Desktop\code\Probabilistic-Robotic-Algorithm\src\OptimalControl\FittedContinuousValueIteration" />
       <recent name="C:\Users\baixi\Desktop\code\Probabilistic-Robotic-Algorithm\src\Models" />
       <recent name="C:\Users\baixi\Desktop\code\Probabilistic-Robotic-Algorithm\src\Utils" />
       <recent name="$PROJECT_DIR$/src/FastSLAM" />
       <recent name="$PROJECT_DIR$/src/Utils" />
-      <recent name="$PROJECT_DIR$/src/Models" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.ValueIterationCSCCFATest">
+  <component name="RunManager" selected="Python.ValueIterationCSCCFATest (1)">
+    <configuration name="ValueIterationCSCCFATest (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Probabilitic Robotic Algorithm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/FittedContinuousValueIteration" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/FittedContinuousValueIteration/ValueIterationCSCCFATest.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="ValueIterationCSCCFATest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -148,27 +165,13 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests in cachedSplineDistanceTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="Probabilitic Robotic Algorithm" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/OptimalControl" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/OptimalControl/cachedSplineDistanceTest.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ValueIterationCSCCFATest (1)" />
         <item itemvalue="Python.ValueIterationCSCCFATest" />
         <item itemvalue="Python tests.Unittests in FunctionApproximatorTest.py" />
         <item itemvalue="Python.splineValueIterationTest" />
         <item itemvalue="Python.valueIterationTest" />
-        <item itemvalue="Python tests.Unittests in cachedSplineDistanceTest.py" />
       </list>
     </recent_temporary>
   </component>
@@ -216,38 +219,38 @@
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
     <state width="1243" height="466" key="DebuggerActiveHint/0.0.2560.1392@0.0.2560.1392" timestamp="1652314225603" />
-    <state width="1584" height="312" key="GridCell.Tab.0.bottom" timestamp="1652316500097">
+    <state width="1574" height="312" key="GridCell.Tab.0.bottom" timestamp="1652381930526">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="312" key="GridCell.Tab.0.bottom/0.0.2560.1392@0.0.2560.1392" timestamp="1652316500097" />
-    <state width="1584" height="312" key="GridCell.Tab.0.center" timestamp="1652316500097">
+    <state width="1574" height="312" key="GridCell.Tab.0.bottom/0.0.2560.1392@0.0.2560.1392" timestamp="1652381930526" />
+    <state width="1574" height="312" key="GridCell.Tab.0.center" timestamp="1652381930526">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="312" key="GridCell.Tab.0.center/0.0.2560.1392@0.0.2560.1392" timestamp="1652316500097" />
-    <state width="1584" height="312" key="GridCell.Tab.0.left" timestamp="1652316500097">
+    <state width="1574" height="312" key="GridCell.Tab.0.center/0.0.2560.1392@0.0.2560.1392" timestamp="1652381930526" />
+    <state width="1574" height="312" key="GridCell.Tab.0.left" timestamp="1652381930526">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="312" key="GridCell.Tab.0.left/0.0.2560.1392@0.0.2560.1392" timestamp="1652316500097" />
-    <state width="1584" height="312" key="GridCell.Tab.0.right" timestamp="1652316500097">
+    <state width="1574" height="312" key="GridCell.Tab.0.left/0.0.2560.1392@0.0.2560.1392" timestamp="1652381930526" />
+    <state width="1574" height="312" key="GridCell.Tab.0.right" timestamp="1652381930526">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="312" key="GridCell.Tab.0.right/0.0.2560.1392@0.0.2560.1392" timestamp="1652316500097" />
-    <state width="1584" height="269" key="GridCell.Tab.1.bottom" timestamp="1652314977355">
+    <state width="1574" height="312" key="GridCell.Tab.0.right/0.0.2560.1392@0.0.2560.1392" timestamp="1652381930526" />
+    <state width="1584" height="269" key="GridCell.Tab.1.bottom" timestamp="1652317700432">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="269" key="GridCell.Tab.1.bottom/0.0.2560.1392@0.0.2560.1392" timestamp="1652314977355" />
-    <state width="1584" height="269" key="GridCell.Tab.1.center" timestamp="1652314977355">
+    <state width="1584" height="269" key="GridCell.Tab.1.bottom/0.0.2560.1392@0.0.2560.1392" timestamp="1652317700432" />
+    <state width="1584" height="269" key="GridCell.Tab.1.center" timestamp="1652317700432">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="269" key="GridCell.Tab.1.center/0.0.2560.1392@0.0.2560.1392" timestamp="1652314977355" />
-    <state width="1584" height="269" key="GridCell.Tab.1.left" timestamp="1652314977355">
+    <state width="1584" height="269" key="GridCell.Tab.1.center/0.0.2560.1392@0.0.2560.1392" timestamp="1652317700432" />
+    <state width="1584" height="269" key="GridCell.Tab.1.left" timestamp="1652317700432">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="269" key="GridCell.Tab.1.left/0.0.2560.1392@0.0.2560.1392" timestamp="1652314977355" />
-    <state width="1584" height="269" key="GridCell.Tab.1.right" timestamp="1652314977355">
+    <state width="1584" height="269" key="GridCell.Tab.1.left/0.0.2560.1392@0.0.2560.1392" timestamp="1652317700432" />
+    <state width="1584" height="269" key="GridCell.Tab.1.right" timestamp="1652317700432">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="269" key="GridCell.Tab.1.right/0.0.2560.1392@0.0.2560.1392" timestamp="1652314977355" />
+    <state width="1584" height="269" key="GridCell.Tab.1.right/0.0.2560.1392@0.0.2560.1392" timestamp="1652317700432" />
     <state x="800" y="390" key="SettingsEditor" timestamp="1652118189645">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
