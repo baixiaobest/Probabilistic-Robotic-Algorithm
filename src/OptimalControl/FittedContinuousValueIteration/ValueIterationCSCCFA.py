@@ -14,7 +14,8 @@ class ValueIterationCSCSFA:
     control_bounds: Bounds on controls. Sequency of (min, max) for each element of control vector u.
     delta_t: Sample time of the value iteration.
     '''
-    def __init__(self, sample_states, dynamics, cost_to_go, function_approximator, delta_t, control_bounds=None):
+    def __init__(self, sample_states, dynamics, cost_to_go, function_approximator, delta_t,
+                 method=None, control_bounds=None, ctrl_maxiter=10, func_approx_maxiter=10):
         self.sample_states = sample_states
         self.dynamics = dynamics
         self.cost_to_go = cost_to_go
@@ -23,15 +24,20 @@ class ValueIterationCSCSFA:
         self.control_bounds = control_bounds
         # Optimal control at sample states, this is improved over iterations.
         self.optimal_controls = [np.zeros(dynamics.num_controls()) for i in range(len(sample_states))]
-        if control_bounds is None:
-            self.control_optimizer_method = 'BFGS'
-            self.func_approx_optimizer_method = 'BFGS'
-        else:
-            self.control_optimizer_method = 'L-BFGS-B'
-            self.func_approx_optimizer_method = 'L-BFGS-B'
 
-        self.control_optimizer_options = {'maxiter': 10, 'disp': False}
-        self.func_approx_optimizer_options = {'maxiter': 10, 'disp': False}
+        if method:
+            self.control_optimizer_method = method
+            self.func_approx_optimizer_method = method
+        else:
+            if control_bounds is None:
+                self.control_optimizer_method = 'BFGS'
+                self.func_approx_optimizer_method = 'BFGS'
+            else:
+                self.control_optimizer_method = 'L-BFGS-B'
+                self.func_approx_optimizer_method = 'L-BFGS-B'
+
+        self.control_optimizer_options = {'maxiter': ctrl_maxiter, 'disp': False}
+        self.func_approx_optimizer_options = {'maxiter': func_approx_maxiter, 'disp': False}
 
     def iterate(self, num_iteration=1):
         for i in range(num_iteration):

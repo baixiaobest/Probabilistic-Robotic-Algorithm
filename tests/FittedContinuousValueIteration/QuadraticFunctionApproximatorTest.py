@@ -2,7 +2,7 @@ import unittest
 import src.OptimalControl.FittedContinuousValueIteration.QuadraticFuncApproximator as qfa
 import numpy as np
 
-class FunctionApproximatorTest(unittest.TestCase):
+class QuadraticFunctionApproximatorTest(unittest.TestCase):
     def test_param(self):
         approx = qfa.QuadraticFunctionApproximator(3)
         p = approx.get_parameters()

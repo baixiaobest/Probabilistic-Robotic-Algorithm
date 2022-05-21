@@ -1,6 +1,6 @@
 from scipy.optimize import minimize
 
-def get_policy_at(x, u0, cost_to_go, dJdx, dxdt, maxiter=10, control_bounds=None):
+def get_policy_at(x, u0, cost_to_go, dJdx, dxdt, maxiter=10, control_bounds=None, method=None):
     '''
     x: State at which to generate the policy
     u: Initial guess of the control.
@@ -15,10 +15,11 @@ def get_policy_at(x, u0, cost_to_go, dJdx, dxdt, maxiter=10, control_bounds=None
     def cost_function(u):
         return cost_to_go(x, u) + dJdx(x)@dxdt(x, u)
 
-    if control_bounds is None:
-        method = "BFGS"
-    else:
-        method = "L-BFGS-B"
+    if not method:
+        if control_bounds is None:
+            method = "BFGS"
+        else:
+            method = "L-BFGS-B"
 
     res = minimize(cost_function, u0, method=method, options={'maxiter': maxiter, 'disp': False}, bounds=control_bounds)
 

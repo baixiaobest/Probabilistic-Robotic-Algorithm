@@ -2,6 +2,7 @@ import unittest
 import numpy as np
 import src.OptimalControl.FittedContinuousValueIteration.ValueIterationCSCCFA as VI
 import src.OptimalControl.FittedContinuousValueIteration.QuadraticFuncApproximator as QFA
+from tests.FittedContinuousValueIteration.common import *
 import src.OptimalControl.FittedContinuousValueIteration.StateSpaceDynamics as SS
 from src.OptimalControl.FittedContinuousValueIteration.common import get_policy_at
 import matplotlib.pyplot as plt
@@ -9,21 +10,39 @@ from matplotlib import cm
 from scipy.integrate import odeint
 
 
-def cost_to_go(x, u):
-    '''
-    x: state of size 2
-    u: control of size 1
-    '''
-    return x@np.diag([1, 1])@x + u*u
+'''
+No control bound condition:
+Got approximated value function x'Ax with 
+A=
+    [[1.83421586, 1.09046314],
+     [1.09046314, 1.89109854]]
+         
+With control boound condition on [-3, 3]
+Got approximated value function x'Ax with 
+A = 
+    [[1.96280209, 4.8242855 ],
+     [4.8242855, 18.07550927]]
+convergence is in question.
+'''
+def get_A(type=0):
+    if type == 0:
+        return np.array([[1.83421586, 1.09046314],
+                         [1.09046314, 1.89109854]])
+    elif type == 1:
+        return np.array([[1.96280209, 4.8242855 ],
+                          [4.8242855, 18.07550927]])
 
-def get_double_integrator_dynamics():
-    # Dynamics of double integrator
-    A = np.array([[0, 1], [0, 0]])
-    B = np.array([[0], [1]])
-    C = np.identity(2)
-    D = np.zeros((2, 1))
-    double_integrator_ss = SS.StateSpaceDynamics(A, B, C, D)
-    return double_integrator_ss
+def get_dJdx(A):
+    '''
+    Get the derivative of value function with respect to x.
+    :param A: value function J = x'Ax
+    :return: 2Ax
+    '''
+    # Since we know value function J is quadratic of form x'Ax,
+    # then its derivative is 2Ax.
+    def dJdx(x):
+        return 2 * A @ x
+    return dJdx
 
 def compute_value_function():
     '''
@@ -58,37 +77,6 @@ def compute_value_function():
         vi.iterate()
         print(f"interation: {i}")
         print(func_approx.get_A())
-
-    '''
-    No control bound condition:
-    Got approximated value function x'Ax with 
-    A=
-        [[1.83421586, 1.09046314],
-         [1.09046314, 1.89109854]]
-    '''
-
-    '''
-    With control boound condition on [-3, 3]
-    Got approximated value function x'Ax with 
-    A = 
-        [[1.96280209, 4.8242855 ],
-         [4.8242855, 18.07550927]]
-    convergence is in question.
-    '''
-def get_A(type=0):
-    if type == 0:
-        return np.array([[1.83421586, 1.09046314],
-                         [1.09046314, 1.89109854]])
-    elif type == 1:
-        return np.array([[1.96280209, 4.8242855 ],
-                          [4.8242855, 18.07550927]])
-
-def get_dJdx(A):
-    # Since we know value function J is quadratic of form x'Ax,
-    # then its derivative is 2Ax.
-    def dJdx(x):
-        return 2 * A @ x
-    return dJdx
 
 def visualize_value_function_and_policy():
     """

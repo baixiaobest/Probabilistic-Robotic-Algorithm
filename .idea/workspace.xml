@@ -23,9 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0051667b-5963-4b58-95ba-14c3692b88a0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/NeuralFuncApproximator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/NeuralFuncApproximator2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/NeuralFittedValueIterationTest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/NeuralFunctionApproximatorTest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/NeuralFunctionApproximatorTest2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/common.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/ValueIterationCSCCFA.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/ValueIterationCSCCFA.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/OptimalControl/FittedContinuousValueIteration/common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/FunctionApproximatorTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/QuadraticFunctionApproximatorTest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/ValueIterationCSCCFATest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/FittedContinuousValueIteration/ValueIterationCSCCFATest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,10 +62,14 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../covid19-math-model" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/FittedContinuousValueIteration" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\baixi\Desktop\code\Probabilistic-Robotic-Algorithm\tests\FittedContinuousValueIteration" />
+      <recent name="C:\Users\baixi\Desktop\code\Probabilistic-Robotic-Algorithm\src\OptimalControl\FittedContinuousValueIteration" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\baixi\Desktop\code\Probabilistic-Robotic-Algorithm\src\OptimalControl\FittedContinuousValueIteration" />
       <recent name="C:\Users\baixi\Desktop\code\Probabilistic-Robotic-Algorithm\src\Models" />
@@ -68,6 +79,27 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.ValueIterationCSCCFATest (1)">
+    <configuration name="NeuralFittedValueIterationTest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Probabilitic Robotic Algorithm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/FittedContinuousValueIteration" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/FittedContinuousValueIteration/NeuralFittedValueIterationTest.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="ValueIterationCSCCFATest (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -89,70 +121,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="ValueIterationCSCCFATest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Probabilitic Robotic Algorithm" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/ContinuousValueIteration" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/ContinuousValueIteration/ValueIterationCSCCFATest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="splineValueIterationTest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Probabilitic Robotic Algorithm" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/OptimalControl" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/OptimalControl/splineValueIterationTest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="valueIterationTest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Probabilitic Robotic Algorithm" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/OptimalControl" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/OptimalControl/valueIterationTest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests in FunctionApproximatorTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests in NeuralFunctionApproximatorTest2.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="Probabilitic Robotic Algorithm" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -162,17 +131,45 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/FittedContinuousValueIteration/FunctionApproximatorTest.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/FittedContinuousValueIteration/NeuralFunctionApproximatorTest2.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in NeuralFunctionApproximatorTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Probabilitic Robotic Algorithm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/FittedContinuousValueIteration" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/FittedContinuousValueIteration/NeuralFunctionApproximatorTest.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in QuadraticFunctionApproximatorTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Probabilitic Robotic Algorithm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/FittedContinuousValueIteration" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/FittedContinuousValueIteration/QuadraticFunctionApproximatorTest.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.ValueIterationCSCCFATest (1)" />
-        <item itemvalue="Python.ValueIterationCSCCFATest" />
-        <item itemvalue="Python tests.Unittests in FunctionApproximatorTest.py" />
-        <item itemvalue="Python.splineValueIterationTest" />
-        <item itemvalue="Python.valueIterationTest" />
+        <item itemvalue="Python.NeuralFittedValueIterationTest" />
+        <item itemvalue="Python tests.Unittests in NeuralFunctionApproximatorTest2.py" />
+        <item itemvalue="Python tests.Unittests in NeuralFunctionApproximatorTest.py" />
+        <item itemvalue="Python tests.Unittests in QuadraticFunctionApproximatorTest.py" />
       </list>
     </recent_temporary>
   </component>
@@ -216,54 +213,62 @@
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
     <state x="981" y="498" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1392@0.0.2560.1392" timestamp="1652204775178" />
-    <state width="1243" height="466" key="DebuggerActiveHint" timestamp="1652314225603">
+    <state x="423" y="371" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1653025968308">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1243" height="466" key="DebuggerActiveHint/0.0.2560.1392@0.0.2560.1392" timestamp="1652314225603" />
+    <state x="423" y="371" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1392@0.0.2560.1392" timestamp="1653025968308" />
+    <state x="1808" y="628" key="#xdebugger.evaluate" timestamp="1653103333815">
+      <screen x="0" y="0" width="2560" height="1392" />
+    </state>
+    <state x="1808" y="628" key="#xdebugger.evaluate/0.0.2560.1392@0.0.2560.1392" timestamp="1653103333815" />
+    <state width="1358" height="466" key="DebuggerActiveHint" timestamp="1653103235306">
+      <screen x="0" y="0" width="2560" height="1392" />
+    </state>
+    <state width="1358" height="466" key="DebuggerActiveHint/0.0.2560.1392@0.0.2560.1392" timestamp="1653103235306" />
     <state x="854" y="480" key="FileChooserDialogImpl" timestamp="1652501397721">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
     <state x="854" y="480" key="FileChooserDialogImpl/0.0.2560.1392@0.0.2560.1392" timestamp="1652501397721" />
-    <state width="1594" height="282" key="GridCell.Tab.0.bottom" timestamp="1652938530184">
+    <state width="1594" height="282" key="GridCell.Tab.0.bottom" timestamp="1653103891427">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1594" height="282" key="GridCell.Tab.0.bottom/0.0.2560.1392@0.0.2560.1392" timestamp="1652938530184" />
-    <state width="1594" height="282" key="GridCell.Tab.0.center" timestamp="1652938530184">
+    <state width="1594" height="282" key="GridCell.Tab.0.bottom/0.0.2560.1392@0.0.2560.1392" timestamp="1653103891427" />
+    <state width="1594" height="282" key="GridCell.Tab.0.center" timestamp="1653103891427">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1594" height="282" key="GridCell.Tab.0.center/0.0.2560.1392@0.0.2560.1392" timestamp="1652938530184" />
-    <state width="1594" height="282" key="GridCell.Tab.0.left" timestamp="1652938530184">
+    <state width="1594" height="282" key="GridCell.Tab.0.center/0.0.2560.1392@0.0.2560.1392" timestamp="1653103891427" />
+    <state width="1594" height="282" key="GridCell.Tab.0.left" timestamp="1653103891427">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1594" height="282" key="GridCell.Tab.0.left/0.0.2560.1392@0.0.2560.1392" timestamp="1652938530184" />
-    <state width="1594" height="282" key="GridCell.Tab.0.right" timestamp="1652938530184">
+    <state width="1594" height="282" key="GridCell.Tab.0.left/0.0.2560.1392@0.0.2560.1392" timestamp="1653103891427" />
+    <state width="1594" height="282" key="GridCell.Tab.0.right" timestamp="1653103891427">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1594" height="282" key="GridCell.Tab.0.right/0.0.2560.1392@0.0.2560.1392" timestamp="1652938530184" />
-    <state width="1584" height="269" key="GridCell.Tab.1.bottom" timestamp="1652317700432">
+    <state width="1594" height="282" key="GridCell.Tab.0.right/0.0.2560.1392@0.0.2560.1392" timestamp="1653103891427" />
+    <state width="1594" height="276" key="GridCell.Tab.1.bottom" timestamp="1653103651573">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="269" key="GridCell.Tab.1.bottom/0.0.2560.1392@0.0.2560.1392" timestamp="1652317700432" />
-    <state width="1584" height="269" key="GridCell.Tab.1.center" timestamp="1652317700432">
+    <state width="1594" height="276" key="GridCell.Tab.1.bottom/0.0.2560.1392@0.0.2560.1392" timestamp="1653103651573" />
+    <state width="1594" height="276" key="GridCell.Tab.1.center" timestamp="1653103651573">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="269" key="GridCell.Tab.1.center/0.0.2560.1392@0.0.2560.1392" timestamp="1652317700432" />
-    <state width="1584" height="269" key="GridCell.Tab.1.left" timestamp="1652317700432">
+    <state width="1594" height="276" key="GridCell.Tab.1.center/0.0.2560.1392@0.0.2560.1392" timestamp="1653103651573" />
+    <state width="1594" height="276" key="GridCell.Tab.1.left" timestamp="1653103651573">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="269" key="GridCell.Tab.1.left/0.0.2560.1392@0.0.2560.1392" timestamp="1652317700432" />
-    <state width="1584" height="269" key="GridCell.Tab.1.right" timestamp="1652317700432">
+    <state width="1594" height="276" key="GridCell.Tab.1.left/0.0.2560.1392@0.0.2560.1392" timestamp="1653103651573" />
+    <state width="1594" height="276" key="GridCell.Tab.1.right" timestamp="1653103651573">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="1584" height="269" key="GridCell.Tab.1.right/0.0.2560.1392@0.0.2560.1392" timestamp="1652317700432" />
-    <state x="800" y="390" key="SettingsEditor" timestamp="1652118189645">
+    <state width="1594" height="276" key="GridCell.Tab.1.right/0.0.2560.1392@0.0.2560.1392" timestamp="1653103651573" />
+    <state x="800" y="390" key="SettingsEditor" timestamp="1653023567428">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state x="800" y="390" key="SettingsEditor/0.0.2560.1392@0.0.2560.1392" timestamp="1652118189645" />
-    <state width="810" height="605" key="XDebugger.FullValuePopup" timestamp="1652314164260">
+    <state x="800" y="390" key="SettingsEditor/0.0.2560.1392@0.0.2560.1392" timestamp="1653023567428" />
+    <state width="810" height="605" key="XDebugger.FullValuePopup" timestamp="1653069794867">
       <screen x="0" y="0" width="2560" height="1392" />
     </state>
-    <state width="810" height="605" key="XDebugger.FullValuePopup/0.0.2560.1392@0.0.2560.1392" timestamp="1652314164260" />
+    <state width="810" height="605" key="XDebugger.FullValuePopup/0.0.2560.1392@0.0.2560.1392" timestamp="1653069794867" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
