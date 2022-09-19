@@ -1,10 +1,14 @@
 import scipy.integrate as integrate
 import numpy as np
 import numpy.linalg as la
+import src.Planning.RaceCarTrajectoryPlanning.SplineFit as sf
 
-
+'''
+This class re-parameterizes a given list of splines by arc length of the splines.
+It is based on "Arc-Length Parameterized Spline Curves for Real-Time Simulation".
+'''
 class ArcLengthParameterizedSplines:
-    def __init__(self, dim=2, epsilon=0.01):
+    def __init__(self, dim=2, epsilon=0.001):
         '''
         :param dim: Dimension of the spline.
         :param epsilon: Accuracy when calculating the position of the spline given the length.
@@ -143,26 +147,8 @@ class ArcLengthParameterizedSplines:
             end_point = seg_points[i+1]
             start_tangent = tangents[i]
             end_tangent = tangents[i+1]
-            # Spline parameters
-            pa = np.zeros(self.dimension)
-            pb = np.zeros(self.dimension)
-            pc = np.zeros(self.dimension)
-            pd = np.zeros(self.dimension)
-            # For each dimension, Ax=b needs to be solved to obtain parameters.
-            for dim in range(self.dimension):
-                pc[dim] = start_tangent[dim]
-                pd[dim] = start_point[dim]
-                b = np.array(
-                    [end_point[dim] - start_tangent[dim] * seg_length - start_point[dim],
-                     end_tangent[dim] - start_tangent[dim]])
 
-                A = np.array([[seg_length**3, seg_length**2],
-                              [3*seg_length**2, 2*seg_length]])
-
-                ab = la.solve(A, b)
-                pa[dim] = ab[0]
-                pb[dim] = ab[1]
-
-            arc_splines.append([pa, pb, pc, pd])
+            arc_splines.append(
+                sf.EndpointsSplineFit(start_point, end_point, start_tangent, end_tangent, seg_length, self.dimension))
 
         return arc_splines, seg_length, ts, indices
