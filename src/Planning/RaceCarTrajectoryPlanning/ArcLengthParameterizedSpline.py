@@ -45,40 +45,44 @@ class ArcLengthParameterizedSplines:
             b = spline[1]
             c = spline[2]
             for i in range(self.dimension):
-                sum += 3 * a[i] * t ** 2 + 2 * b[i] * t + c[i]
+                sum += (3 * a[i] * t ** 2 + 2 * b[i] * t + c[i]) ** 2
 
             return np.sqrt(sum)
 
-        return integrate.quad(spline_derivative_func, 0, 1).y
+        return integrate.quad(spline_derivative_func, 0, 1)[0]
 
-    def _find_position_from_length(self, length):
+    def _find_position_in_splines(self, length):
         '''
         Starting from the beginning of the splines, find the position of the
         point after traversing the given arc length.
         :param length: Given traversed lengths.
-        :return: (position, tangent)
+        :return: (position, tangent, t parameter, spline index)
         '''
+
+        # Find which segment of splines the given length falls into.
         prev_seg_length_sum = 0
         seg_idx = 0
-        for i in range(len(self.spline_lengths)):
-            if prev_seg_length_sum <= length \
-                and prev_seg_length_sum + self.spline_lengths[i] > length:
-                seg_idx = i
-                break
-            prev_seg_length_sum += self.spline_lengths[i]
+        while seg_idx < len(self.spline_lengths) and prev_seg_length_sum + self.spline_lengths[seg_idx] < length:
+            prev_seg_length_sum += self.spline_lengths[seg_idx]
+            seg_idx += 1
+
+        if seg_idx == len(self.spline_lengths):
+            seg_idx = len(self.spline_lengths) - 1
 
         length_curr_seg = length - prev_seg_length_sum
         spline = self.splines[seg_idx]
 
-        return self._get_seg_position_from_length(spline, length_curr_seg)
+        pos, tang, t = self._get_position_in_spline(spline, length_curr_seg)
 
-    def _get_seg_position_from_length(self, spline, length):
+        return pos, tang, t, seg_idx
+
+    def _get_position_in_spline(self, spline, length):
         '''
         Starting from the beginning of the spline, traverse spline with the given length,
         return the position after the traversal.
         :param spline: Array of [a, b, c, d] parameters, each element can be numpy vector.
         :param length: Length to traverse. Must be within t = [0, 1], where t parameterize the spline.
-        :return: (Position, tangent)
+        :return: (Position, tangent, t parameter)
         '''
         a = spline[0]
         b = spline[1]
@@ -90,11 +94,11 @@ class ArcLengthParameterizedSplines:
         def spline_derivative(t):
             sum = 0
             for i in range(self.dimension):
-                sum += 3 * a[i] * t ** 2 + 2 * b[i] * t + c[i]
+                sum += (3 * a[i] * t ** 2 + 2 * b[i] * t + c[i]) ** 2
             return np.sqrt(sum)
 
         while True:
-            length_mid = integrate.quad(spline_derivative, 0, mid).y
+            length_mid = integrate.quad(spline_derivative, 0, mid)[0]
             if np.abs(length_mid-length) < self.epsilon:
                 break
             if length < length_mid:
@@ -105,23 +109,33 @@ class ArcLengthParameterizedSplines:
 
         t = mid
         return a * t**3 + b * t**2 + c * t + d, \
-               3 * a * t**2 + 2 * b * t + c
+               3 * a * t**2 + 2 * b * t + c,\
+               t
 
     def compute_arc_length_parameterized_spline(self, num_seg):
         '''
         :param num_seg: Number of new spline segments.
-        :return: list of arc length parameterized splines and segment arc lengths.
+        :return: list of arc length parameterized splines,
+                 segment arc lengths,
+                 parameter t at segment points,
+                 spline indices in segment points
         '''
         total_length = sum(self.spline_lengths)
         seg_length = total_length / num_seg
         seg_points = []
         tangents = []
+        ts = []
+        indices = []
 
+        # traverse the splines with fixed arc lengths,
+        # and compute the position and tangent at each step.
         for i in range(0, num_seg + 1):
             traversed_length = i * seg_length
-            pos, tang = self._find_position_from_length(traversed_length)
+            pos, tang, t, idx = self._find_position_in_splines(traversed_length)
             seg_points.append(pos)
             tangents.append(tang / la.norm(tang))
+            ts.append(t)
+            indices.append(idx)
 
         arc_splines = []
         for i in range(len(seg_points) - 1):
@@ -151,4 +165,4 @@ class ArcLengthParameterizedSplines:
 
             arc_splines.append([pa, pb, pc, pd])
 
-        return arc_splines, seg_length
+        return arc_splines, seg_length, ts, indices
