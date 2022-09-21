@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
     plt.plot(X, Y, 'b')
     plt.plot(X_al, Y_al, 'r')
-    plt.xlim([0, 40])
-    plt.ylim([0, 40])
+    plt.xlim([0, 35])
+    plt.ylim([0, 35])
     plt.title("Original in blue, reparameterized in red")
     plt.show()
