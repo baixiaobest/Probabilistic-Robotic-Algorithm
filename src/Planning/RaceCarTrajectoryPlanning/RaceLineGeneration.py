@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.optimize import minimize, LinearConstraint, NonlinearConstraint
 
 '''
 Generate a trajectory of vehicle given reference trajectory defined by a list of splines.
@@ -21,14 +22,17 @@ class RaceLineGeneration:
         self.delta_t = delta_t
         self.N = horizon + 1 # N is number of states to be considered in the trajectory
         self.curr_states = np.zeros(5)
+        self.curr_progress = 0 # Vehicle current position projected to the spline.
         self.L = L
-        self.state_vec_size = 5 * self.N
-        self.cntrl_vec_size = 2 * (self.N - 1)
-        self.state_of_progress_vec_size = self.N
+        self.num_states = 5
+        self.num_cntrl = 2
+        self.state_vec_size = self.num_states * self.N
+        self.cntrl_vec_size = self.num_cntrl * (self.N - 1)
+        self.progress_vec_size = self.N
         self.proj_vel_vec_size = self.N - 1 # Can be considered as rate of change of state of progress
         self.total_size = self.state_vec_size + \
                           self.cntrl_vec_size + \
-                          self.state_of_progress_vec_size + \
+                          self.progress_vec_size + \
                           self.proj_vel_vec_size
         # Weight for contouring error.
         self.w_cerr = 1
@@ -40,6 +44,12 @@ class RaceLineGeneration:
         self.w_cntrl = np.identity(2)
         # Weight for change in projected velocity
         self.w_proj_v = 1
+
+        # Constraints
+        self.vel_constr = [-10, 10]
+        self.steer_constr = [-np.pi/3, np.pi/3]
+        self.accel_constr = [-3, 3]
+        self.steer_rate_constr = [-0.3, 0.3]
 
     def set_weights(self, w_cerr, w_lerr, w_progress, w_cntrl, w_proj_v):
         '''
@@ -58,6 +68,15 @@ class RaceLineGeneration:
 
     def set_vehicle_states(self, curr_states):
         self.curr_states = curr_states
+
+    # def _project_position_to_splines(self, pos):
+    #     '''
+    #     Given position, find position on spline that is closest to it.
+    #     :param pos: Position given.
+    #     :return: Arc length starting from the beginning of splines.
+    #     '''
+    #     def objective(l):
+    #
 
     def _update_vehicle_nonlinear(self, states, u):
         '''
@@ -78,6 +97,8 @@ class RaceLineGeneration:
         new_states[2] = theta + v * np.tan(delta) / self.L
         new_states[3] = v + u[0] * self.delta_t
         new_states[4] = delta + u[1] * self.delta_t
+
+        return new_states
 
     def _splines_position_tangent_angle(self, length):
         '''
@@ -112,6 +133,11 @@ class RaceLineGeneration:
         return pos, theta
 
     def _nonlinear_objective(self, var):
+        '''
+        Calculate the objective funciton.
+        :param var: Design variables in the optimization problem.
+        :return: Objective value.
+        '''
         sum_cost_contour_err = 0
         sum_cost_lag_err = 0
         sum_progress_rewards = 0
@@ -135,8 +161,8 @@ class RaceLineGeneration:
 
             if i < self.N:
                 # Calculate reward for progress.
-                v1 = var[self.state_vec_size + self.cntrl_vec_size + self.state_of_progress_vec_size + i]
-                v2 = var[self.state_vec_size + self.cntrl_vec_size + self.state_of_progress_vec_size + i + 1]
+                v1 = var[self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size + i]
+                v2 = var[self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size + i + 1]
                 sum_progress_rewards += v1 * self.delta_t
 
                 # Calculate cost of change in progress rate/projected velocity.
@@ -149,17 +175,155 @@ class RaceLineGeneration:
                 du = u2-u1
                 sum_control_cost += du @ self.w_cntrl @ du
 
-            return sum_cost_contour_err * self.w_cerr \
-                   + sum_cost_lag_err * self.w_lerr \
-                   - sum_progress_rewards * self.w_progress \
-                   + sum_proj_vel_change_cost * self.w_proj_v \
-                   + sum_control_cost * self.w_cntrl
+        return sum_cost_contour_err * self.w_cerr \
+                + sum_cost_lag_err * self.w_lerr \
+                - sum_progress_rewards * self.w_progress \
+                + sum_proj_vel_change_cost * self.w_proj_v \
+                + sum_control_cost * self.w_cntrl
+
+    def _get_dynamics_constraint(self):
+        '''
+        Constraint due to vehicle dynamics.
+        :return: Non-linear constraint.
+        '''
+        def constraint_dynamics_func(var):
+            X_next = var[self.num_states:self.state_vec_size]
+            X_curr = var[0:self.state_vec_size - self.num_states]
+            U = var[self.state_vec_size: self.state_vec_size + self.cntrl_vec_size]
+            f_x_u = np.zeros(self.num_states * (self.state_vec_size - 1))
+
+            for i in range(self.state_vec_size - 1):
+                f_x_u[self.num_states * i: self.num_states * (i + 1)] = \
+                    self._update_vehicle_nonlinear(
+                        X_curr[self.num_states * i: self.num_states * (i + 1)],
+                        U[self.num_cntrl * i: self.num_cntrl * (i + 1)])
+
+            return X_next - f_x_u
+
+        return NonlinearConstraint(
+            constraint_dynamics_func,
+            np.zeros(self.num_states * (self.state_vec_size - 1)),
+            np.zeros(self.num_states * (self.state_vec_size - 1)))
+
+    def _get_progress_projected_velocity_constraint(self):
+        '''
+        A matrix add linear constraint of
+            p[k+1] = p[k] + delta_t * v[k],
+            Where p[k] is progress at time step k, v[k] is projected velocity at time step k.
+        :return: linear constraint
+        '''
+        A = np.zeros((self.N - 1, self.total_size))
+        progress_location = self.state_vec_size + self.cntrl_vec_size
+        A[0:self.N - 1, progress_location: progress_location + self.N - 1] += np.identity(self.N - 1)
+        A[0:self.N - 1, progress_location + 1: progress_location + self.N] -= np.identity(self.N - 1)
+        proj_vel_location = self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size
+        A[0:self.N - 1, proj_vel_location: proj_vel_location + self.N - 1] = self.delta_t * np.identity(self.N - 1)
+
+        return LinearConstraint(A, np.zeros(self.N - 1), np.zeros(self.N - 1))
+
+    def _get_state_bound_constraint(self):
+        '''
+        Constraints on state velocity and steering angle.
+        :return: linear constraint
+        '''
+        cnstr_s = 2  # Number of constrained states
+        A = np.zeros((cnstr_s * self.N, self.total_size))
+        lb = np.zeros(cnstr_s * self.N)
+        ub = np.zeros(cnstr_s * self.N)
+        for i in range(self.N):
+            A[cnstr_s * i: cnstr_s * (i + 1), self.num_states * i : self.num_states * (i + 1)] = \
+                np.array([[0, 0, 0, 1, 0],
+                          [0, 0, 0, 0, 1]])
+            lb[cnstr_s * i: cnstr_s * (i + 1)] = np.array([self.vel_constr[0], self.steer_constr[0]])
+            ub[cnstr_s * i: cnstr_s * (i + 1)] = np.array([self.vel_constr[1], self.steer_constr[1]])
+
+        return LinearConstraint(A, lb, ub)
+
+    def _get_control_bound_constraints(self):
+        '''
+        Constraints on vehicle acceleration and steering rate.
+        :return: linear constraint
+        '''
+        A = np.zeros((self.num_cntrl * (self.N-1), self.total_size))
+        A[0:self.num_cntrl * (self.N-1), self.state_vec_size: self.state_vec_size + self.cntrl_vec_size] = \
+            np.identity(self.num_cntrl * (self.N - 1))
+        lb = np.zeros(self.num_cntrl * (self.N - 1))
+        ub = np.zeros(self.num_cntrl * (self.N - 1))
+        for i in range(self.N - 1):
+            lb[self.num_cntrl * i: self.num_cntrl * (i + 1)] = np.array([self.accel_constr[0], self.steer_rate_constr[0]])
+            ub[self.num_cntrl * i: self.num_cntrl * (i + 1)] = np.array([self.accel_constr[1], self.steer_rate_constr[1]])
+
+        return LinearConstraint(A, lb, ub)
+
+    def _get_progress_bound_constraint(self):
+        '''
+        Bounding on the state of progress.
+        :return: Linear constraint.
+        '''
+        track_length = self.spline_length * len(self.splines)
+        A = np.zeros((self.N, self.total_size))
+        progress_location = self.state_vec_size + self.cntrl_vec_size
+        A[0:self.N, progress_location : progress_location + self.N] = np.identity(self.N)
+        lb = np.zeros(self.N)
+        ub = track_length * np.ones(self.N)
+
+        return LinearConstraint(A, lb, ub)
+
+    def _get_projected_velocity_bound_constraint(self):
+        A = np.zeros((self.N - 1, self.total_size))
+        proj_vel_location = self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size
+        A[0: self.N - 1, proj_vel_location: proj_vel_location + self.N - 1] = np.identity(self.N - 1)
+        lb = self.vel_constr[0] * np.ones(self.N - 1)
+        ub = self.vel_constr[1] * np.ones(self.N - 1)
+
+        return LinearConstraint(A, lb, ub)
 
     def generate_racing_line(self):
         '''
         Generate racing lines and the controls required to execute the racing line.
         :return: list of states, list of controls
         '''
+        # Constraint first state.
+        A1 = np.zeros((5, self.total_size))
+        A1[0:5, 0:5] = np.identity(5)
+        start_state_cnstr = LinearConstraint(A1, lb=self.curr_states, ub=self.curr_states)
+
+        # TODO: Constraint the first state of progress.
+
+        # Constraint due to dynamics.
+        dynamics_constraint = self._get_dynamics_constraint()
+
+        # State of Progress constraint
+        progress_proj_vel_constraint = self._get_progress_projected_velocity_constraint()
+
+        # TODO: Constraint on track boundary.
+
+        # State constraints.
+        state_constraint = self._get_state_bound_constraint()
+
+        # Control constraints
+        control_constraint = self._get_control_bound_constraints()
+
+        # Bounding constraint on state of progress
+        progress_constraint = self._get_progress_bound_constraint()
+
+        # Bounding constraint on projected velocity
+        projected_velocity_constraint = self._get_projected_velocity_bound_constraint()
 
         var = np.zeros(self.total_size)
+        for i in range(self.N):
+            var[self.num_states * i: self.num_states * (i + 1)] = self.curr_states
 
+        res = minimize(
+            self._nonlinear_objective,
+            var,
+            method='trust-constr',
+            constraints=[
+                dynamics_constraint,
+                progress_proj_vel_constraint,
+                state_constraint,
+                control_constraint,
+                progress_constraint,
+                projected_velocity_constraint])
+
+        return res.x
