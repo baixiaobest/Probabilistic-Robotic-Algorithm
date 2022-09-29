@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.optimize import minimize, LinearConstraint, NonlinearConstraint
+from scipy.integrate import solve_ivp
 
 '''
 Generate a trajectory of vehicle given reference trajectory defined by a list of splines.
@@ -78,27 +79,30 @@ class RaceLineGeneration:
     #     def objective(l):
     #
 
-    def _update_vehicle_nonlinear(self, states, u):
+    def _update_vehicle_nonlinear(self, init_states, u):
         '''
         Update vehicle state by delta time.
         :param states: Vehicle states, numpy array of [x, y, heading, velocity, steering angle]
         :param u: Vehicle control, numpy array of [vehicle acceleration, steering angle rate]
         :return: Next vehicle states
         '''
-        x = states[0]
-        y = states[1]
-        theta = states[2]
-        v = states[3]
-        delta = states[4]
+        def f(t, states):
+            theta = states[2]
+            v = states[3]
+            delta = states[4]
 
-        new_states = np.zeros(5)
-        new_states[0] = x + v * np.cos(theta) * self.delta_t
-        new_states[1] = y + v * np.sine(theta) * self.delta_t
-        new_states[2] = theta + v * np.tan(delta) / self.L
-        new_states[3] = v + u[0] * self.delta_t
-        new_states[4] = delta + u[1] * self.delta_t
+            dy_dt = np.zeros(5)
+            dy_dt[0] = v * np.cos(theta)
+            dy_dt[1] = v * np.sin(theta)
+            dy_dt[2] = v * np.tan(delta) / self.L
+            dy_dt[3] = u[0]
+            dy_dt[4] = u[1]
 
-        return new_states
+            return dy_dt
+
+        res = solve_ivp(f, (0, self.delta_t), init_states)
+
+        return res.y[:, -1]
 
     def _splines_position_tangent_angle(self, length):
         '''
@@ -147,8 +151,8 @@ class RaceLineGeneration:
             # No computation of contouring error and lag error for the first state.
             if i > 1:
                 # Calculate contouring error and lag error.
-                x = var[5*i]
-                y = var[5*i + 1]
+                x = var[self.num_states * i]
+                y = var[self.num_states * i + 1]
                 # State of progress, or length travel on spline
                 l = var[self.state_vec_size + self.cntrl_vec_size + i]
                 pos, theta = self._splines_position_tangent_angle(l)
@@ -159,7 +163,7 @@ class RaceLineGeneration:
                 sum_cost_contour_err += contour_err
                 sum_cost_lag_err += lag_err
 
-            if i < self.N:
+            if i <= self.N - 3:
                 # Calculate reward for progress.
                 v1 = var[self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size + i]
                 v2 = var[self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size + i + 1]
@@ -170,8 +174,8 @@ class RaceLineGeneration:
                 sum_proj_vel_change_cost += dv**2
 
                 # Calculate cost of control and cost of change in rate of progress.
-                u1 = var[self.state_vec_size + 2*i : self.state_vec_size + 2*i + 2]
-                u2 = var[self.state_vec_size + 2 * (i+1) : self.state_vec_size + 2 * (i+1) + 2]
+                u1 = var[self.state_vec_size + self.num_cntrl * i : self.state_vec_size + self.num_cntrl * (i+1)]
+                u2 = var[self.state_vec_size + self.num_cntrl * (i+1) : self.state_vec_size + self.num_cntrl * (i+2)]
                 du = u2-u1
                 sum_control_cost += du @ self.w_cntrl @ du
 
@@ -270,6 +274,10 @@ class RaceLineGeneration:
         return LinearConstraint(A, lb, ub)
 
     def _get_projected_velocity_bound_constraint(self):
+        '''
+        Bound on projected velocity.
+        :return: Linear constraint
+        '''
         A = np.zeros((self.N - 1, self.total_size))
         proj_vel_location = self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size
         A[0: self.N - 1, proj_vel_location: proj_vel_location + self.N - 1] = np.identity(self.N - 1)
