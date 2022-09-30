@@ -52,15 +52,20 @@ class RaceLineGeneration:
         self.accel_constr = [-3, 3]
         self.steer_rate_constr = [-0.3, 0.3]
 
+        self.constr_count = 0
+        self.iter_count = 0
+
     def set_weights(self, w_cerr, w_lerr, w_progress, w_cntrl, w_proj_v):
         '''
         :param w_cerr: Weight for contouring error.
         :param w_lerr: Weight for lag error.
         :param w_progress: Weight for progress, or distance traveled at each time step projected to the splines.
-        :param w_cntrl: Weight for control changes.
+        :param w_cntrl: Weight for control changes, shape of (2, 2)
         :param w_proj_v: Weight for change in projected velocity
         :return: None
         '''
+        if w_cerr.shape != (self.num_cntrl, self.num_cntrl):
+            raise ValueError(f"w_cntrl should be of size ({self.num_cntrl}, {self.num_cntrl})")
         self.w_cerr = w_cerr
         self.w_lerr = w_lerr
         self.w_progress = w_progress
@@ -147,7 +152,7 @@ class RaceLineGeneration:
         sum_progress_rewards = 0
         sum_proj_vel_change_cost = 0
         sum_control_cost = 0
-        for i in range(len(self.N)):
+        for i in range(self.N):
             # No computation of contouring error and lag error for the first state.
             if i > 1:
                 # Calculate contouring error and lag error.
@@ -163,11 +168,14 @@ class RaceLineGeneration:
                 sum_cost_contour_err += contour_err
                 sum_cost_lag_err += lag_err
 
+            if i <= self.N-2:
+                v = var[self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size + i]
+                sum_progress_rewards += v * self.delta_t
+
             if i <= self.N - 3:
                 # Calculate reward for progress.
                 v1 = var[self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size + i]
                 v2 = var[self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size + i + 1]
-                sum_progress_rewards += v1 * self.delta_t
 
                 # Calculate cost of change in progress rate/projected velocity.
                 dv = v2-v1
@@ -179,11 +187,13 @@ class RaceLineGeneration:
                 du = u2-u1
                 sum_control_cost += du @ self.w_cntrl @ du
 
-        return sum_cost_contour_err * self.w_cerr \
+        val = sum_cost_contour_err * self.w_cerr \
                 + sum_cost_lag_err * self.w_lerr \
                 - sum_progress_rewards * self.w_progress \
                 + sum_proj_vel_change_cost * self.w_proj_v \
-                + sum_control_cost * self.w_cntrl
+                + sum_control_cost
+
+        return val
 
     def _get_dynamics_constraint(self):
         '''
@@ -194,20 +204,21 @@ class RaceLineGeneration:
             X_next = var[self.num_states:self.state_vec_size]
             X_curr = var[0:self.state_vec_size - self.num_states]
             U = var[self.state_vec_size: self.state_vec_size + self.cntrl_vec_size]
-            f_x_u = np.zeros(self.num_states * (self.state_vec_size - 1))
+            f_x_u = np.zeros(self.state_vec_size - self.num_states)
 
-            for i in range(self.state_vec_size - 1):
+            for i in range(self.N - 1):
                 f_x_u[self.num_states * i: self.num_states * (i + 1)] = \
                     self._update_vehicle_nonlinear(
                         X_curr[self.num_states * i: self.num_states * (i + 1)],
                         U[self.num_cntrl * i: self.num_cntrl * (i + 1)])
+            x_diff = X_next - f_x_u
 
-            return X_next - f_x_u
+            return x_diff
 
         return NonlinearConstraint(
             constraint_dynamics_func,
-            np.zeros(self.num_states * (self.state_vec_size - 1)),
-            np.zeros(self.num_states * (self.state_vec_size - 1)))
+            -0.001*np.ones(self.num_states * (self.N - 1)),
+            0.001*np.ones(self.num_states * (self.N - 1)))
 
     def _get_progress_projected_velocity_constraint(self):
         '''
@@ -289,7 +300,8 @@ class RaceLineGeneration:
     def generate_racing_line(self):
         '''
         Generate racing lines and the controls required to execute the racing line.
-        :return: list of states, list of controls
+        :return: list of states: numpy array of shape (number of states, horizon + 1)
+                 list of controls: numpy array of shape (number of states, horizon)
         '''
         # Constraint first state.
         A1 = np.zeros((5, self.total_size))
@@ -322,16 +334,38 @@ class RaceLineGeneration:
         for i in range(self.N):
             var[self.num_states * i: self.num_states * (i + 1)] = self.curr_states
 
+        def callback(xk, states):
+            self.iter_count += 1
+            print(f"iteration count: {self.iter_count} objective: {states.fun}")
+
         res = minimize(
             self._nonlinear_objective,
             var,
-            method='trust-constr',
+            method='SLSQP',
             constraints=[
                 dynamics_constraint,
                 progress_proj_vel_constraint,
                 state_constraint,
                 control_constraint,
                 progress_constraint,
-                projected_velocity_constraint])
+                projected_velocity_constraint
+            ],
+            options={"maxiter": 10, "disp": True},
+            # callback=callback,
+            tol=0.1)
 
-        return res.x
+        states_list = np.transpose(np.reshape(
+                    res.x[0:self.state_vec_size],
+                    (int(self.state_vec_size/self.num_states), self.num_states)))
+
+        control_list = np.reshape(
+            res.x[self.state_vec_size: self.state_vec_size + self.cntrl_vec_size],
+            (int(self.cntrl_vec_size/self.num_cntrl), self.num_cntrl))
+
+        progress = res.x[self.state_vec_size + self.cntrl_vec_size:
+                         self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size]
+
+        proj_velocity = res.x[self.state_vec_size + self.cntrl_vec_size + self.progress_vec_size : ]
+
+        return states_list, control_list, progress, proj_velocity
+
